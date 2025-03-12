@@ -1,0 +1,33 @@
+﻿@model List<PersonsModel>
+
+<div class="text-center">
+    <h1 class="display-4">Persons</h1>
+
+    <p>
+        This page provides a comprehensive view of individuals and their details. Easily update personal information, review account history, and track all transactions associated with their accounts, ensuring complete oversight and efficient management.
+    </p>
+    <br></br>
+
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Surname</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var person in Model)
+        {
+            <tr>
+                <td>@person.FirstName</td>
+                <td>@person.Surname</td>
+                <td>
+                    <i class="bi bi-eye"></i>
+                </td>
+            </tr>    
+        }
+    </tbody>
+</table>
