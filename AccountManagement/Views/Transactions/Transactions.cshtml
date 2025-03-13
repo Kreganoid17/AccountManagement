@@ -1,0 +1,35 @@
+﻿@model List<TransactionsModel>
+
+<div class="text-center">
+    <h1 class="display-4">Transactions</h1>
+
+    <p>
+        Easily and securely complete your transactions on our platform. Whether you're making a purchase or sending funds, our user-friendly page ensures fast, safe, and reliable processing every time.
+    </p>
+    <br></br>
+
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Transaction Date</th>
+            <th>Capture Date</th>
+            <th>Amount</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var transaction in Model)
+        {
+            <tr>
+                <td>@transaction.transaction_date</td>
+                <td>@transaction.capture_date</td>
+                <td>@transaction.amount</td>
+                <td>@transaction.description</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

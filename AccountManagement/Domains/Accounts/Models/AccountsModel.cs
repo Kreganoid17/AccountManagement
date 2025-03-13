@@ -8,6 +8,6 @@
 
         public string account_number { get; set; } = string.Empty;
 
-        public decimal outstanding_balance { get; set; }
+        public double outstanding_balance { get; set; }
     }
 }

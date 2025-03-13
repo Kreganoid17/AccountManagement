@@ -2,6 +2,7 @@ using AccountManagement.ActionFilter;
 using AccountManagement.Configuration;
 using AccountManagement.Domains.Accounts;
 using AccountManagement.Domains.Persons;
+using AccountManagement.Domains.Transactions;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using Serilog.Enrichers.Span;
@@ -31,6 +32,7 @@ builder.Services.Configure<StoredProcedureOptions>(
 
 builder.Services.AddPersonsServices();
 builder.Services.AddAccountsServices();
+builder.Services.AddTransactionsServices();
 builder.Services.AddScoped<Stopwatch>();
 
 // Add services to the container.
