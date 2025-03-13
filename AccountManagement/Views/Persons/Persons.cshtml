@@ -10,11 +10,12 @@
 
 </div>
 
-<table class="table">
+<table class="table table-striped">
     <thead>
         <tr>
-            <th>First Name</th>
+            <th>Name</th>
             <th>Surname</th>
+            <th>ID Number</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -22,8 +23,9 @@
         @foreach (var person in Model)
         {
             <tr>
-                <td>@person.FirstName</td>
-                <td>@person.Surname</td>
+                <td>@person.name</td>
+                <td>@person.surname</td>
+                <td>@person.id_number</td>
                 <td>
                     <i class="bi bi-eye"></i>
                 </td>
