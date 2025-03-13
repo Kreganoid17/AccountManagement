@@ -25,13 +25,15 @@ public class PersonsRepository(IOptionsSnapshot<ConnectionStringOptions> connect
                 sql: storedProcedures.Value.GetAllPersons,
                 commandType: CommandType.StoredProcedure);
 
-            logger.LogInformation("{Announcement}: Attempt to retrieve all persons details was successful", Constants.Succeeded);
+            logger.LogInformation("{Announcement}: Attempt to retrieve all persons details was successful.", 
+                                    Constants.Succeeded);
 
             return persons.ToList();
         }
         catch (Exception ex) 
         {
-            logger.LogError(ex, "{Announcement}: Attempt to retrieve all persons details was unsuccessful", Constants.Failed);
+            logger.LogError(ex, "{Announcement}: Attempt to retrieve all persons details was unsuccessful.", 
+                            Constants.Failed);
             return null;
         }
     }

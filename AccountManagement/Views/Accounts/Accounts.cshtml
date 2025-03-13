@@ -1,0 +1,29 @@
+﻿@model List<AccountsModel>
+
+<div class="text-center">
+    <h1 class="display-4">Accounts</h1>
+
+    <p>
+        View and manage your account details, including personal information, settings, and preferences, all in one place.
+    </p>
+    <br></br>
+
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Account Number</th>
+            <th>Outstanding Balance</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var account in Model)
+        {
+            <tr>
+                <td>@account.account_number</td>
+                <td>@account.outstanding_balance</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -7,9 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Domains\Home\Models\" />
-    <Folder Include="Domains\Home\Repository\" />
-    <Folder Include="Domains\Home\Services\" />
+    <Compile Remove="Domains\Home\Models\**" />
+    <Compile Remove="Domains\Home\Repository\**" />
+    <Compile Remove="Domains\Home\Services\**" />
+    <Content Remove="Domains\Home\Models\**" />
+    <Content Remove="Domains\Home\Repository\**" />
+    <Content Remove="Domains\Home\Services\**" />
+    <EmbeddedResource Remove="Domains\Home\Models\**" />
+    <EmbeddedResource Remove="Domains\Home\Repository\**" />
+    <EmbeddedResource Remove="Domains\Home\Services\**" />
+    <None Remove="Domains\Home\Models\**" />
+    <None Remove="Domains\Home\Repository\**" />
+    <None Remove="Domains\Home\Services\**" />
   </ItemGroup>
 
   <ItemGroup>

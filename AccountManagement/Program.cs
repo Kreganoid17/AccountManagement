@@ -1,5 +1,6 @@
 using AccountManagement.ActionFilter;
 using AccountManagement.Configuration;
+using AccountManagement.Domains.Accounts;
 using AccountManagement.Domains.Persons;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
@@ -29,6 +30,7 @@ builder.Services.Configure<StoredProcedureOptions>(
     builder.Configuration.GetSection("StoredProcedures"));
 
 builder.Services.AddPersonsServices();
+builder.Services.AddAccountsServices();
 builder.Services.AddScoped<Stopwatch>();
 
 // Add services to the container.
