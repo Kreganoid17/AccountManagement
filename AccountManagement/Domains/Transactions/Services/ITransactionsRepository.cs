@@ -4,6 +4,6 @@ namespace AccountManagement.Domains.Transactions.Services
 {
     public interface ITransactionsRepository
     {
-        Task<List<TransactionsModel>?> GetAllTransactionsByAccountCode(int accountCode);
+        Task<List<TransactionsModel>?> RetrieveAllTransactionsByAccountCode(int accountCode);
     }
 }

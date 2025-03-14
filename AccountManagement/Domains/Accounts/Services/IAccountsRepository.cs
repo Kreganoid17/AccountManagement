@@ -4,6 +4,8 @@ namespace AccountManagement.Domains.Accounts.Services
 {
     public interface IAccountsRepository
     {
-        Task<List<AccountsModel>?> GetAllAccountsByPersonsId(int personId);
+        Task<List<AccountsModel>?> RetrieveAllAccountsByPersonsId(int personId);
+
+        Task<bool> CreateAsync(AccountsModel account);
     }
 }

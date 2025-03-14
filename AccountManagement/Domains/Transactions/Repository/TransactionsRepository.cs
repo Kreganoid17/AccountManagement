@@ -13,7 +13,7 @@ namespace AccountManagement.Domains.Transactions.Repository
                                         IOptionsSnapshot<StoredProcedureOptions> storedProcedures,
                                         ILogger<TransactionsRepository> logger) : ITransactionsRepository
     {
-        public async Task<List<TransactionsModel>?> GetAllTransactionsByAccountCode(int accountCode)
+        public async Task<List<TransactionsModel>?> RetrieveAllTransactionsByAccountCode(int accountCode)
         {
             logger.LogInformation("Repository => Attempt to retrieve all transactions with account code: {accountCode}", accountCode);
 
@@ -24,7 +24,7 @@ namespace AccountManagement.Domains.Transactions.Repository
 
                 var param = new DynamicParameters();
 
-                param.Add("@accountCode", accountCode, DbType.Int64, ParameterDirection.Input);
+                param.Add("@account_Code", accountCode, DbType.Int64, ParameterDirection.Input);
 
                 var transactions = await SqlConnection.QueryAsync<TransactionsModel>(
                     sql: storedProcedures.Value.GetAllTransactionsByAccountCode,

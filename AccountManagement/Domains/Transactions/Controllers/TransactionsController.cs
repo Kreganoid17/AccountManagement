@@ -9,7 +9,7 @@ namespace AccountManagement.Domains.Transactions.Controllers
         [HttpGet("transactions/{accountCode}")]
         public async Task<IActionResult> Transactions(int accountCode)
         {
-            return View(await transactionsRepository.GetAllTransactionsByAccountCode(accountCode));
+            return View(await transactionsRepository.RetrieveAllTransactionsByAccountCode(accountCode));
         }
     }
 }

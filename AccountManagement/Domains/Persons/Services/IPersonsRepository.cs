@@ -4,5 +4,7 @@ namespace AccountManagement.Domains.Persons.Services;
 
 public interface IPersonsRepository
 {
-    Task<List<PersonsModel>?> GetAllPersons();
+    Task<List<PersonsModel>?> RetrieveAllAsync();
+
+    Task<bool> CreateAsync(PersonsModel personModel);
 }

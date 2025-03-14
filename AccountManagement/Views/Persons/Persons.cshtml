@@ -10,6 +10,11 @@
 
 </div>
 
+<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#CreatePersonModal">Create</button>
+
+@await Html.PartialAsync("_CreatePersonModal", new PersonsModel())
+@await Html.PartialAsync("_CreateAccountModal", new AccountsModel())
+
 <table class="table table-striped">
     <thead>
         <tr>
@@ -31,6 +36,7 @@
                     <a href="@Url.Action("Accounts", "Accounts", new { personCode = person.code })" class="btn btn-primary">
                         View Account
                     </a>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#CreateAccountModal">Create Account</button>
                 </td>
             </tr>    
         }

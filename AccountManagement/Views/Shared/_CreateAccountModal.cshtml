@@ -1,0 +1,38 @@
+﻿@model AccountsModel
+
+<div class="modal fade" id="CreateAccountModal" tabindex="-1" aria-labelledby="CreateAccountModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="CreateAccountModalLabel">Create Person</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("create", "Accounts", FormMethod.Post))
+                {
+
+                    <div class="form-group">
+                        @Html.LabelFor(p => p.account_number)
+                        @Html.TextBoxFor(p => p.account_number, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(p => p.account_number)
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(p => p.outstanding_balance)
+                        @Html.TextBoxFor(p => p.outstanding_balance, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(p => p.outstanding_balance)
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(p => p.person_code)
+                        @Html.TextBoxFor(p => p.person_code, new { @class = "form-control", @readonly = true })
+                        @Html.ValidationMessageFor(p => p.person_code)
+                    </div>
+
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary">
+                }
+            </div>
+        </div>
+    </div>
+</div>
