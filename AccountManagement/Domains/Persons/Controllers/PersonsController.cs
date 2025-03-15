@@ -12,7 +12,7 @@ public class PersonsController(IPersonsRepository personsRepository) : Controlle
         return View(await personsRepository.RetrieveAllAsync());
     }
 
-    [HttpPost("create")]
+    [HttpPost("create/persons")]
     public async Task<IActionResult> CreateAsync(PersonsModel personsModel) 
     {
         if (ModelState.IsValid)

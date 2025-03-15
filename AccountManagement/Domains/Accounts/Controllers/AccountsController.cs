@@ -9,10 +9,11 @@ namespace AccountManagement.Domains.Accounts.Controllers
         [HttpGet("accounts/{personCode}")]
         public async Task<IActionResult> Accounts(int personCode)
         {
+            ViewData["PersonCode"] = personCode;
             return View(await accountsRepository.RetrieveAllAccountsByPersonsId(personCode));
         }
 
-        [HttpPost("create")]
+        [HttpPost("create/account")]
         public async Task<IActionResult> CreateAsync(AccountsModel accountModel)
         {
             if (ModelState.IsValid)
@@ -21,7 +22,7 @@ namespace AccountManagement.Domains.Accounts.Controllers
 
                 if (isCreated)
                 {
-                    return Ok();
+                    return RedirectToAction(nameof(Accounts), new { personCode = accountModel.person_code});
                 }
                 else 
                 {

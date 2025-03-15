@@ -1,5 +1,12 @@
 ﻿@model List<AccountsModel>
 
+@{
+    var accountModel = new AccountsModel
+            {
+                person_code = (int)ViewData["PersonCode"]
+            };
+}
+
 <div class="text-center">
     <h1 class="display-4">Accounts</h1>
 
@@ -9,6 +16,10 @@
     <br></br>
 
 </div>
+
+<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#CreateAccountModal">Create Account</button>
+
+@await Html.PartialAsync("_CreateAccountModal", accountModel)
 
 <table class="table table-striped">
     <thead>

@@ -24,7 +24,7 @@ namespace AccountManagement.Domains.Transactions.Repository
 
                 var param = new DynamicParameters();
 
-                param.Add("@account_Code", accountCode, DbType.Int64, ParameterDirection.Input);
+                param.Add("@accountCode", accountCode, DbType.Int64, ParameterDirection.Input);
 
                 var transactions = await SqlConnection.QueryAsync<TransactionsModel>(
                     sql: storedProcedures.Value.GetAllTransactionsByAccountCode,

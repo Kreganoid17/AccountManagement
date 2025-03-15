@@ -10,7 +10,6 @@
             <div class="modal-body">
                 @using (Html.BeginForm("create", "Accounts", FormMethod.Post))
                 {
-
                     <div class="form-group">
                         @Html.LabelFor(p => p.account_number)
                         @Html.TextBoxFor(p => p.account_number, new { @class = "form-control" })
@@ -23,7 +22,7 @@
                         @Html.ValidationMessageFor(p => p.outstanding_balance)
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" style="display: none;">
                         @Html.LabelFor(p => p.person_code)
                         @Html.TextBoxFor(p => p.person_code, new { @class = "form-control", @readonly = true })
                         @Html.ValidationMessageFor(p => p.person_code)
