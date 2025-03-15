@@ -40,6 +40,11 @@
                     <a href="@Url.Action("Transactions", "Transactions", new { accountCode = account.code })" class="btn btn-primary">
                         View Transactions
                     </a>
+
+                    <form action="@Url.Action("Delete", "Accounts", new { accountCode = account.code })" method="post">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
                 </td>
             </tr>
         }

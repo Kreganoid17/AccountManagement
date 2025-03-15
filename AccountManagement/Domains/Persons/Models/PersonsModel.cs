@@ -14,7 +14,8 @@ public class PersonsModel
 
     [Required(ErrorMessage = "ID Number is required")]
     [RegularExpression("([0-9]+)", ErrorMessage = "Invalid ID Number")]
-    [StringLength(13, ErrorMessage = "Max Length of 13 digits is required")]
+    [MinLength(13, ErrorMessage = "Min length of 13 numbers required")]
+    [MaxLength(13, ErrorMessage = "Max length of 13 numbers required")]
     public string id_number { get; set; } = string.Empty;
 
 }

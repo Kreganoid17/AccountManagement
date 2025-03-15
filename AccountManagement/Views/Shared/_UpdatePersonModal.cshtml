@@ -1,0 +1,43 @@
+﻿@model PersonsModel
+
+<div class="modal fade" id="UpdatePersonModal_@Model.code" tabindex="-1" aria-labelledby="UpdatePersonModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="UpdatePersonModalLabel">Update Person</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("update", "Persons", FormMethod.Post))
+                {
+                    <div class="form-group">
+                        @Html.LabelFor(p => p.name)
+                        @Html.TextBoxFor(p => p.name, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(p => p.name)
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(p => p.surname)
+                        @Html.TextBoxFor(p => p.surname, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(p => p.surname)
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(p => p.id_number)
+                        @Html.TextBoxFor(p => p.id_number, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(p => p.id_number)
+                    </div>
+
+                    <div class="form-group" style="display: none;">
+                        @Html.LabelFor(p => p.code)
+                        @Html.TextBoxFor(p => p.code, new { @class = "form-control", @readonly = true })
+                        @Html.ValidationMessageFor(p => p.code)
+                    </div>
+
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary">
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -48,6 +48,38 @@ namespace AccountManagement.Domains.Accounts.Repository
             }
         }
 
+        public async Task<bool> DeleteAsync(int accountCode)
+        {
+            logger.LogInformation("Repository => Attempting to delete an account with code: {accountCode}", accountCode);
+
+            try
+            {
+                var param = new DynamicParameters();
+
+                param.Add(name: "@account_code", value: accountCode, dbType: DbType.Int64, direction: ParameterDirection.Input);
+
+                await using var sqlConnection = new SqlConnection(connectionStrings.Value.DbConnection);
+
+                var persons = await sqlConnection.ExecuteAsync(
+                    sql: storedProcedures.Value.DeleteAccount,
+                    param: param,
+                    commandType: CommandType.StoredProcedure);
+
+                logger.LogInformation("{Announcement}: Attempt to delete an account with code: {accountCode} was successful.",
+                                        Constants.Succeeded,
+                                        accountCode);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "{Announcement}: Attempt to delete an account with code: {accountCode} was unsuccessful.",
+                                Constants.Failed,
+                                accountCode);
+                return false;
+            }
+        }
+
         public async Task<List<AccountsModel>?> RetrieveAllAccountsByPersonsId(int personCode)
         {
             logger.LogInformation("Repository => Attempting to retrieve all account data for person with code: {personCode}", personCode);

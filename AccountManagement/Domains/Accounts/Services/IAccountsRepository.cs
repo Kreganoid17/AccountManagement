@@ -7,5 +7,7 @@ namespace AccountManagement.Domains.Accounts.Services
         Task<List<AccountsModel>?> RetrieveAllAccountsByPersonsId(int personId);
 
         Task<bool> CreateAsync(AccountsModel account);
+
+        Task<bool> DeleteAsync(int accountCode);
     }
 }

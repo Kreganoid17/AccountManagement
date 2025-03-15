@@ -33,4 +33,42 @@ public class PersonsController(IPersonsRepository personsRepository) : Controlle
             return RedirectToAction(nameof(Persons));
         }
     }
+
+    [HttpPost("update/persons")]
+    public async Task<IActionResult> UpdateAsync(PersonsModel personsModel)
+    {
+        if (ModelState.IsValid)
+        {
+            var isCreated = await personsRepository.UpdateAsync(personsModel);
+
+            if (isCreated)
+            {
+                return RedirectToAction(nameof(Persons));
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+        else
+        {
+            return RedirectToAction(nameof(Persons));
+        }
+    }
+
+    [HttpPost("delete/persons/{personCode}")]
+    public async Task<IActionResult> DeleteAsync(int personCode) 
+    {
+        var isDeleted = await personsRepository.DeleteAsync(personCode);
+
+        if (isDeleted)
+        {
+            return RedirectToAction(nameof(Persons));
+        }
+        else 
+        {
+            return BadRequest();
+        }
+    }
+
 }

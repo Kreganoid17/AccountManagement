@@ -35,8 +35,17 @@
                     <a href="@Url.Action("Accounts", "Accounts", new { personCode = person.code })" class="btn btn-primary">
                         View Account
                     </a>
+
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#UpdatePersonModal_@person.code">Edit Person</button>
+
+                    <form action="@Url.Action("Delete", "Persons", new { personCode = person.code })" method="post">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
                 </td>
-            </tr>    
+            </tr>
+
+            @await Html.PartialAsync("_UpdatePersonModal", person)
         }
     </tbody>
 </table>

@@ -32,5 +32,20 @@ namespace AccountManagement.Domains.Accounts.Controllers
 
             return BadRequest();
         }
+
+        [HttpPost("delete/account/{accountCode}")]
+        public async Task<IActionResult> DeleteAsync(int accountCode)
+        {
+            var isDeleted = await accountsRepository.DeleteAsync(accountCode);
+
+            if (isDeleted)
+            {
+                return RedirectToAction(nameof(Accounts), new { personCode = accountCode});
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
     }
 }
