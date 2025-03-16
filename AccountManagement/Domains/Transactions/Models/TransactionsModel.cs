@@ -17,6 +17,7 @@ public class TransactionsModel
     public DateTime capture_date { get; set; } = DateTime.Now;
 
     [Required]
+    [TransactionAmount]
     public double amount { get; set; }
 
     [Required]
