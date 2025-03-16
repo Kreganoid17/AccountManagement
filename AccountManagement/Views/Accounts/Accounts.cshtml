@@ -34,9 +34,8 @@
     {
         <tr>
                 <td>@account.account_number</td>
-                <td>@account.outstanding_balance</td>
+                <td>R @account.outstanding_balance</td>
                 <td class="d-flex gap-2">
-                    @* <i class="bi bi-eye"></i> *@
                     <a href="@Url.Action("Transactions", "Transactions", new { accountCode = account.code })" class="btn btn-primary">
                         View Transactions
                     </a>

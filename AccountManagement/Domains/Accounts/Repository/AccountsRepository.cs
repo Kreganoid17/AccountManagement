@@ -24,7 +24,7 @@ public class AccountsRepository(IOptionsSnapshot<ConnectionStringOptions> connec
 
             param.Add(name: "@person_code", value: accountModel.person_code, dbType: DbType.Int64, direction: ParameterDirection.Input);
             param.Add(name: "@account_number", value: accountModel.account_number, dbType: DbType.Int64, direction: ParameterDirection.Input);
-            param.Add(name: "@outstanding_balance", value: accountModel.outstanding_balance, dbType: DbType.Double, direction: ParameterDirection.Input);
+            param.Add(name: "@outstanding_balance", value: accountModel.outstanding_balance, dbType: DbType.Decimal, direction: ParameterDirection.Input);
 
             await using var sqlConnection = new SqlConnection(connectionStrings.Value.DbConnection);
 
