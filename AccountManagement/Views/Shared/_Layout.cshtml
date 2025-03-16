@@ -60,13 +60,13 @@
 
     <script>
         @{
-            var toastMessage = TempData["ToastMessage"];
-            var toastType = TempData["ToastType"];
-        }
+        var toastMessage = TempData["ToastMessage"];
+        var toastType = TempData["ToastType"];
+    }
 
         @if (toastMessage != null && toastType != null)
-        {
-            <text>
+    {
+        <text>
                 $(document).ready(function () {
                     var message = "@toastMessage";
                     var type = "@toastType"; 
@@ -84,7 +84,7 @@
                     }
                 });
             </text>
-        }
+    }
     </script>
 
     @await RenderSectionAsync("Scripts", required: false)

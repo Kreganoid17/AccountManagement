@@ -1,13 +1,14 @@
 ﻿using AccountManagement.Domains.Accounts.Models;
 
-namespace AccountManagement.Domains.Accounts.Services
+namespace AccountManagement.Domains.Accounts.Services;
+
+public interface IAccountsRepository
 {
-    public interface IAccountsRepository
-    {
-        Task<List<AccountsModel>?> RetrieveAllAccountsByPersonsId(int personId);
+    Task<List<AccountsModel>?> RetrieveAllAccountsByPersonsId(int personId);
 
-        Task<bool> CreateAsync(AccountsModel account);
+    Task<AccountsModel?> RetrieveSingleAsync(int accountCode);
 
-        Task<bool> DeleteAsync(int accountCode);
-    }
+    Task<bool> CreateAsync(AccountsModel account);
+
+    Task<bool> DeleteAsync(int accountCode);
 }

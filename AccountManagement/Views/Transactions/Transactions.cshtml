@@ -2,9 +2,9 @@
 
 @{
     var transactionModel = new TransactionsModel
-            {
-                account_code = (int)ViewData["AccountCode"]
-            };
+        {
+            account_code = (int)ViewData["AccountCode"]
+        };
 }
 
 
@@ -34,13 +34,13 @@
     </thead>
     <tbody>
         @foreach (var transaction in Model)
-        {
-            <tr>
+    {
+        <tr>
                 <td>@transaction.transaction_date</td>
                 <td>@transaction.capture_date</td>
                 <td>@transaction.amount</td>
                 <td>@transaction.description</td>
-                <td>
+                <td class="d-flex gap-2">
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#UpdateTransactionModal_@transaction.code">Edit Transaction</button>
 
                     <form action="@Url.Action("Delete", "Transactions", new { transactionCode = transaction.code })" method="post">
@@ -50,8 +50,8 @@
                 </td>
             </tr>
 
-            @await Html.PartialAsync("_UpdateTransactionModal", transaction)
-        }
+        @await Html.PartialAsync("_UpdateTransactionModal", transaction)
+    }
     </tbody>
 </table>
 

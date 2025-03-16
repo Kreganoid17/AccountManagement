@@ -1,20 +1,19 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AccountManagement.Domains.Accounts.Models
+namespace AccountManagement.Domains.Accounts.Models;
+
+public class AccountsModel
 {
-    public class AccountsModel
-    {
-        public int code { get; set; }
+    public int code { get; set; }
 
-        [Required]
-        public int person_code { get; set; }
+    [Required]
+    public int person_code { get; set; }
 
-        [Required]
-        [RegularExpression(@"^\d+$")]
-        public string account_number { get; set; } = string.Empty;
+    [Required]
+    [RegularExpression(@"^\d+$")]
+    public string account_number { get; set; } = string.Empty;
 
-        [Required]
-        [RegularExpression(@"^\d+(\.\d+)?$")]
-        public double outstanding_balance { get; set; }
-    }
+    [Required]
+    [RegularExpression(@"^\d+(\.\d+)?$")]
+    public double outstanding_balance { get; set; }
 }

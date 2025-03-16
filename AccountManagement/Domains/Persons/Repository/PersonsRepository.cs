@@ -27,10 +27,10 @@ public class PersonsRepository(IOptionsSnapshot<ConnectionStringOptions> connect
 
             await using var sqlConnection = new SqlConnection(connectionStrings.Value.DbConnection);
 
-            var persons = await sqlConnection.ExecuteAsync(
-                sql: storedProcedures.Value.InsertNewPerson,
-                param: param,
-                commandType: CommandType.StoredProcedure);
+            await sqlConnection.ExecuteAsync(
+            sql: storedProcedures.Value.InsertNewPerson,
+            param: param,
+            commandType: CommandType.StoredProcedure);
 
             logger.LogInformation("{Announcement}: Attempt to create a person was successful.",
                                     Constants.Succeeded);
@@ -57,10 +57,10 @@ public class PersonsRepository(IOptionsSnapshot<ConnectionStringOptions> connect
 
             await using var sqlConnection = new SqlConnection(connectionStrings.Value.DbConnection);
 
-            var persons = await sqlConnection.ExecuteAsync(
-                sql: storedProcedures.Value.DeletePerson,
-                param: param,
-                commandType: CommandType.StoredProcedure);
+            await sqlConnection.ExecuteAsync(
+            sql: storedProcedures.Value.DeletePerson,
+            param: param,
+            commandType: CommandType.StoredProcedure);
 
             logger.LogInformation("{Announcement}: Attempt to delete a person with code: {personCode} was successful.",
                                     Constants.Succeeded,
@@ -117,10 +117,10 @@ public class PersonsRepository(IOptionsSnapshot<ConnectionStringOptions> connect
 
             await using var sqlConnection = new SqlConnection(connectionStrings.Value.DbConnection);
 
-            var persons = await sqlConnection.ExecuteAsync(
-                sql: storedProcedures.Value.UpdatePerson,
-                param: param,
-                commandType: CommandType.StoredProcedure);
+            await sqlConnection.ExecuteAsync(
+            sql: storedProcedures.Value.UpdatePerson,
+            param: param,
+            commandType: CommandType.StoredProcedure);
 
             logger.LogInformation("{Announcement}: Attempt to update a person with code: {personCode} was successful.",
                                     Constants.Succeeded,
