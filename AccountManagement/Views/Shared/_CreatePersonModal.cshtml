@@ -11,25 +11,30 @@
                 @using (Html.BeginForm("create", "Persons", FormMethod.Post))
                 {
                     <div class="form-group">
-                        @Html.LabelFor(p => p.name)
+                        <label>Name:</label>
                         @Html.TextBoxFor(p => p.name, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(p => p.name)
                     </div>
 
+                    <br>
+
                     <div class="form-group">
-                        @Html.LabelFor(p => p.surname)
+                        <label>Surname:</label>
                         @Html.TextBoxFor(p => p.surname, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(p => p.surname)
                     </div>
+
+                    <br>
 
                     <div class="form-group">
-                        @Html.LabelFor(p => p.id_number)
+                        <label>ID Number:</label>
                         @Html.TextBoxFor(p => p.id_number, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(p => p.id_number)
                     </div>
 
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <input type="submit" class="btn btn-primary">
+                    <br>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-primary">
+                    </div>
                 }
             </div>
         </div>

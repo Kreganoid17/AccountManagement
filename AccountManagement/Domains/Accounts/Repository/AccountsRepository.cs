@@ -28,7 +28,7 @@ namespace AccountManagement.Domains.Accounts.Repository
 
                 await using var sqlConnection = new SqlConnection(connectionStrings.Value.DbConnection);
 
-                var persons = await sqlConnection.ExecuteAsync(
+                var accounts = await sqlConnection.ExecuteAsync(
                     sql: storedProcedures.Value.InsertNewAccount,
                     param: param,
                     commandType: CommandType.StoredProcedure);
@@ -60,7 +60,7 @@ namespace AccountManagement.Domains.Accounts.Repository
 
                 await using var sqlConnection = new SqlConnection(connectionStrings.Value.DbConnection);
 
-                var persons = await sqlConnection.ExecuteAsync(
+                var accounts = await sqlConnection.ExecuteAsync(
                     sql: storedProcedures.Value.DeleteAccount,
                     param: param,
                     commandType: CommandType.StoredProcedure);

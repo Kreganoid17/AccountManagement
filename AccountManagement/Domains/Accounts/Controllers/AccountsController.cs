@@ -22,15 +22,21 @@ namespace AccountManagement.Domains.Accounts.Controllers
 
                 if (isCreated)
                 {
+                    TempData["ToastMessage"] = "Account has been created";
+                    TempData["ToastType"] = "success";
                     return RedirectToAction(nameof(Accounts), new { personCode = accountModel.person_code});
                 }
                 else 
                 {
-                    return BadRequest();
+                    TempData["ToastMessage"] = "Unable to create account";
+                    TempData["ToastType"] = "error";
+                    return RedirectToAction(nameof(Accounts), new { personCode = accountModel.person_code });
                 }
             }
 
-            return BadRequest();
+            TempData["ToastMessage"] = "Incorrect details entered";
+            TempData["ToastType"] = "error";
+            return RedirectToAction(nameof(Accounts), new { personCode = accountModel.person_code });
         }
 
         [HttpPost("delete/account/{accountCode}")]
@@ -40,11 +46,15 @@ namespace AccountManagement.Domains.Accounts.Controllers
 
             if (isDeleted)
             {
+                TempData["ToastMessage"] = "Account has been deleted";
+                TempData["ToastType"] = "success";
                 return RedirectToAction(nameof(Accounts), new { personCode = accountCode});
             }
             else
             {
-                return BadRequest();
+                TempData["ToastMessage"] = "Unable to delete account";
+                TempData["ToastType"] = "error";
+                return RedirectToAction(nameof(Accounts), new { personCode = accountCode });
             }
         }
     }

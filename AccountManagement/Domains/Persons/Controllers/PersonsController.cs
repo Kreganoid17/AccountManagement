@@ -12,7 +12,7 @@ public class PersonsController(IPersonsRepository personsRepository) : Controlle
         return View(await personsRepository.RetrieveAllAsync());
     }
 
-    [HttpPost("create/persons")]
+    [HttpPost("create/person")]
     public async Task<IActionResult> CreateAsync(PersonsModel personsModel) 
     {
         if (ModelState.IsValid)
@@ -21,53 +21,69 @@ public class PersonsController(IPersonsRepository personsRepository) : Controlle
 
             if (isCreated)
             {
+                TempData["ToastMessage"] = "Person has been created";
+                TempData["ToastType"] = "success";
                 return RedirectToAction(nameof(Persons));
             }
             else
             {
-                return BadRequest();
+                TempData["ToastMessage"] = "Unable to create person";
+                TempData["ToastType"] = "error";
+                return RedirectToAction(nameof(Persons));
             }
         }
         else 
         {
+            TempData["ToastMessage"] = "Incorrect details entered";
+            TempData["ToastType"] = "error";
             return RedirectToAction(nameof(Persons));
         }
     }
 
-    [HttpPost("update/persons")]
+    [HttpPost("update/person")]
     public async Task<IActionResult> UpdateAsync(PersonsModel personsModel)
     {
         if (ModelState.IsValid)
         {
-            var isCreated = await personsRepository.UpdateAsync(personsModel);
+            var isUpdated = await personsRepository.UpdateAsync(personsModel);
 
-            if (isCreated)
+            if (isUpdated)
             {
+                TempData["ToastMessage"] = "Person has been updated";
+                TempData["ToastType"] = "success";
                 return RedirectToAction(nameof(Persons));
             }
             else
             {
-                return BadRequest();
+                TempData["ToastMessage"] = "Unable to update person";
+                TempData["ToastType"] = "error";
+                return RedirectToAction(nameof(Persons));
             }
         }
         else
         {
+            TempData["ToastMessage"] = "Incorrect details entered";
+            TempData["ToastType"] = "error";
             return RedirectToAction(nameof(Persons));
         }
     }
 
-    [HttpPost("delete/persons/{personCode}")]
+    [HttpPost("delete/person/{personCode}")]
     public async Task<IActionResult> DeleteAsync(int personCode) 
     {
         var isDeleted = await personsRepository.DeleteAsync(personCode);
 
         if (isDeleted)
         {
+            TempData["ToastMessage"] = "Person has been deleted";
+            TempData["ToastType"] = "success";
             return RedirectToAction(nameof(Persons));
         }
         else 
         {
-            return BadRequest();
+            TempData["ToastMessage"] = "Unable to delete person";
+            TempData["ToastType"] = "error";
+            return RedirectToAction(nameof(Persons));
         }
     }
 

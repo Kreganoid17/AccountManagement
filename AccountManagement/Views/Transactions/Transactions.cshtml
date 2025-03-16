@@ -1,5 +1,13 @@
 ﻿@model List<TransactionsModel>
 
+@{
+    var transactionModel = new TransactionsModel
+            {
+                account_code = (int)ViewData["AccountCode"]
+            };
+}
+
+
 <div class="text-center">
     <h1 class="display-4">Transactions</h1>
 
@@ -10,6 +18,10 @@
 
 </div>
 
+<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#CreateTransactionModal">Create Transaction</button>
+
+@await Html.PartialAsync("_CreateTransactionModal", transactionModel)
+
 <table class="table table-striped">
     <thead>
         <tr>
@@ -17,6 +29,7 @@
             <th>Capture Date</th>
             <th>Amount</th>
             <th>Description</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -27,7 +40,17 @@
                 <td>@transaction.capture_date</td>
                 <td>@transaction.amount</td>
                 <td>@transaction.description</td>
+                <td>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#UpdateTransactionModal_@transaction.code">Edit Transaction</button>
+
+                    <form action="@Url.Action("Delete", "Transactions", new { transactionCode = transaction.code })" method="post">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
             </tr>
+
+            @await Html.PartialAsync("_UpdateTransactionModal", transaction)
         }
     </tbody>
 </table>

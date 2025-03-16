@@ -7,6 +7,7 @@ public interface IPersonsRepository
     Task<List<PersonsModel>?> RetrieveAllAsync();
 
     Task<bool> CreateAsync(PersonsModel personModel);
+
     Task<bool> UpdateAsync(PersonsModel personModel);
 
     Task<bool> DeleteAsync(int personCode);   

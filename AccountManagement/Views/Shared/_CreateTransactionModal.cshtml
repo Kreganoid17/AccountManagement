@@ -1,0 +1,48 @@
+﻿@model TransactionsModel
+
+<div class="modal fade" id="CreateTransactionModal" tabindex="-1" aria-labelledby="CreateTransactionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="CreateTransactionModalLabel">Create Transaction</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("create", "Transactions", FormMethod.Post))
+                {
+                    <div class="form-group" style="display: none;">
+                        @Html.TextBoxFor(t => t.account_code, new { @class = "form-control", @readonly = true })
+                    </div>
+
+                    <br>
+
+                    <div class="form-group">
+                        <label>Transaction Date:</label>
+                        @Html.TextBoxFor(t => t.transaction_date, new { @class = "form-control", type = "datetime" })
+                    </div>
+
+                    <br>
+
+                    <div class="form-group">
+                        <label>Amount:</label>
+                        @Html.TextBoxFor(t => t.amount, new { @class = "form-control" })
+                    </div>
+
+                    <br>
+
+                    <div class="form-group">
+                        <label>Description:</label>
+                        @Html.TextBoxFor(t => t.description, new { @class = "form-control"})
+                    </div>
+
+                    <br>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-primary">
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
