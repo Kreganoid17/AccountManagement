@@ -9,27 +9,27 @@
             </div>
             <div class="modal-body">
                 @using (Html.BeginForm("create", "Accounts", FormMethod.Post))
-            {
-                <div class="form-group">
+        {
+            <div class="form-group">
                         <label>Account Number:</label>
                         @Html.TextBoxFor(p => p.account_number, new { @class = "form-control" })
                     </div>
 
+            <br>
+
                 <br>
 
-                    <br>
-
-                <div class="form-group" style="display: none;">
+            <div class="form-group" style="display: none;">
                         @Html.TextBoxFor(p => p.person_code, new { @class = "form-control", @readonly = true })
                     </div>
 
-                <br>
+            <br>
 
-                <div class="modal-footer">
+            <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <input type="submit" class="btn btn-primary">
                     </div>
-            }
+        }
             </div>
         </div>
     </div>

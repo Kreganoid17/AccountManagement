@@ -32,10 +32,10 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Persons" asp-action="Persons">Persons</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Home">About</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="About" asp-action="About">About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Contact</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Contact" asp-action="Contact">Contact</a>
                         </li>
                     </ul>
                 </div>
@@ -60,13 +60,13 @@
 
     <script>
         @{
-        var toastMessage = TempData["ToastMessage"];
-        var toastType = TempData["ToastType"];
+    var toastMessage = TempData["ToastMessage"];
+    var toastType = TempData["ToastType"];
     }
 
         @if (toastMessage != null && toastType != null)
-    {
-        <text>
+{
+    <text>
                 $(document).ready(function () {
                     var message = "@toastMessage";
                     var type = "@toastType"; 
@@ -84,7 +84,7 @@
                     }
                 });
             </text>
-    }
+}
     </script>
 
     @await RenderSectionAsync("Scripts", required: false)

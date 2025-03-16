@@ -26,8 +26,8 @@
     </thead>
     <tbody>
         @foreach (var person in Model)
-    {
-        <tr>
+{
+    <tr>
                 <td>@person.name</td>
                 <td>@person.surname</td>
                 <td>@person.id_number</td>
@@ -45,8 +45,8 @@
                 </td>
             </tr>
 
-        @await Html.PartialAsync("_UpdatePersonModal", person)
-    }
+    @await Html.PartialAsync("_UpdatePersonModal", person)
+}
     </tbody>
 </table>
 

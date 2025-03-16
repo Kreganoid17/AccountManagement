@@ -2,9 +2,9 @@
 
 @{
     var transactionModel = new TransactionsModel
-        {
-            account_code = (int)ViewData["AccountCode"]
-        };
+    {
+        account_code = (int)ViewData["AccountCode"]
+    };
 }
 
 
@@ -34,8 +34,8 @@
     </thead>
     <tbody>
         @foreach (var transaction in Model)
-    {
-        <tr>
+{
+    <tr>
                 <td>@transaction.transaction_date</td>
                 <td>@transaction.capture_date</td>
                 <td>R @transaction.amount</td>
@@ -50,8 +50,8 @@
                 </td>
             </tr>
 
-        @await Html.PartialAsync("_UpdateTransactionModal", transaction)
-    }
+    @await Html.PartialAsync("_UpdateTransactionModal", transaction)
+}
     </tbody>
 </table>
 
