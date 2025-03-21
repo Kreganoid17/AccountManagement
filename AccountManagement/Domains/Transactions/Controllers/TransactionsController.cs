@@ -1,5 +1,4 @@
-﻿using AccountManagement.Domains.Persons.Models;
-using AccountManagement.Domains.Persons.Repository;
+﻿using AccountManagement.Domains.Persons.Repository;
 using AccountManagement.Domains.Persons.Services;
 using AccountManagement.Domains.Transactions.Models;
 using AccountManagement.Domains.Transactions.Services;

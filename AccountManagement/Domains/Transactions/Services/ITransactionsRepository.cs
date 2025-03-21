@@ -1,5 +1,4 @@
-﻿using AccountManagement.Domains.Persons.Models;
-using AccountManagement.Domains.Transactions.Models;
+﻿using AccountManagement.Domains.Transactions.Models;
 
 namespace AccountManagement.Domains.Transactions.Services;
 

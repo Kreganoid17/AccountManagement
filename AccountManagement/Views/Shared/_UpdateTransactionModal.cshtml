@@ -9,45 +9,45 @@
             </div>
             <div class="modal-body">
                 @using (Html.BeginForm("Update", "Transactions", FormMethod.Post))
-        {
-            <div class="form-group" style="display: none;">
+    {
+        <div class="form-group" style="display: none;">
                         @Html.TextBoxFor(t => t.code, new { @class = "form-control", @readonly = true })
                     </div>
 
-                    <br>
+                <br>
 
-            <div class="form-group" style="display: none;">
+        <div class="form-group" style="display: none;">
                         @Html.TextBoxFor(t => t.account_code, new { @class = "form-control", @readonly = true })
                     </div>
 
-            <br>
+        <br>
 
-                <div class="form-group">
+            <div class="form-group">
                         <label>Transaction Date:</label>
                         @Html.TextBoxFor(t => t.transaction_date, new { @class = "form-control", type = "datetime-local" })
                     </div>
 
-            <br>
+        <br>
 
-            <div class="form-group">
+        <div class="form-group">
                         <label>Amount:</label>
                         @Html.TextBoxFor(t => t.amount, new { @class = "form-control" })
                     </div>
 
-            <br>
+        <br>
 
-            <div class="form-group">
+        <div class="form-group">
                         <label>Description:</label>
                         @Html.TextBoxFor(t => t.description, new { @class = "form-control" })
                     </div>
 
-            <br>
+        <br>
 
-            <div class="modal-footer">
+        <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <input type="submit" class="btn btn-primary">
                     </div>
-        }
+    }
             </div>
         </div>
     </div>

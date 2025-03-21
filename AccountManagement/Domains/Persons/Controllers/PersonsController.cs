@@ -1,5 +1,5 @@
-﻿using AccountManagement.Domains.Persons.Models;
-using AccountManagement.Domains.Persons.Services;
+﻿using AccountManagement.Domains.Persons.Services;
+using AccountManagment.Libraries.Shared.Domains.Persons.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AccountManagement.Domains.Persons.Controllers;
@@ -9,7 +9,7 @@ public class PersonsController(IPersonsRepository personsRepository) : Controlle
     [HttpGet("persons")]
     public async Task<IActionResult> Persons()
     {
-        return View(await personsRepository.RetrieveAllAsync());
+        return View(await personsRepository.GetPersonsAsync());
     }
 
     [HttpPost("create/person")]
@@ -17,7 +17,7 @@ public class PersonsController(IPersonsRepository personsRepository) : Controlle
     {
         if (ModelState.IsValid)
         {
-            var isCreated = await personsRepository.CreateAsync(personsModel);
+            var isCreated = await personsRepository.CreatePersonAsync(personsModel);
 
             if (isCreated)
             {
@@ -45,7 +45,7 @@ public class PersonsController(IPersonsRepository personsRepository) : Controlle
     {
         if (ModelState.IsValid)
         {
-            var isUpdated = await personsRepository.UpdateAsync(personsModel);
+            var isUpdated = await personsRepository.UpdatePersonAsync(personsModel);
 
             if (isUpdated)
             {
@@ -71,7 +71,7 @@ public class PersonsController(IPersonsRepository personsRepository) : Controlle
     [HttpPost("delete/person/{personCode}")]
     public async Task<IActionResult> DeleteAsync(int personCode) 
     {
-        var isDeleted = await personsRepository.DeleteAsync(personCode);
+        var isDeleted = await personsRepository.DeletePersonAsync(personCode);
 
         if (isDeleted)
         {

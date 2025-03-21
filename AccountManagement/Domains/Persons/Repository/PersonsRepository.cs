@@ -1,137 +1,99 @@
 ﻿using AccountManagement.Configuration;
-using AccountManagement.Domains.Persons.Models;
 using AccountManagement.Domains.Persons.Services;
-using AccountManagement.Helpers;
-using Dapper;
-using Microsoft.Data.SqlClient;
+using AccountManagment.Libraries.Shared.Constants;
+using AccountManagment.Libraries.Shared.Domains.Persons.Models;
+using HttpClientLibrary.HttpClientService;
 using Microsoft.Extensions.Options;
-using System.Data;
 
 namespace AccountManagement.Domains.Persons.Repository;
 
-public class PersonsRepository(IOptionsSnapshot<ConnectionStringOptions> connectionStrings,
-                               IOptionsSnapshot<StoredProcedureOptions> storedProcedures,
-                               ILogger<PersonsRepository> logger) : IPersonsRepository
+public class PersonsRepository(IOptionsSnapshot<ApiEndpointsConfiguration> apiEndpoints,
+                               ILogger<PersonsRepository> logger,
+                               IHttpClientHelper client) : IPersonsRepository
 {
-    public async Task<bool> CreateAsync(PersonsModel personModel)
+    public async Task<bool> CreatePersonAsync(PersonsModel personModel)
     {
         logger.LogInformation("Repository => Attempting to create a person");
 
         try
         {
-            var param = new DynamicParameters();
+            var url = apiEndpoints.Value.CreatePersonEndpoint;
 
-            param.Add(name: "@name", value: personModel.name, dbType: DbType.String, direction: ParameterDirection.Input);
-            param.Add(name: "@surname", value: personModel.surname, dbType: DbType.String, direction: ParameterDirection.Input);
-            param.Add(name: "@id_number", value: personModel.id_number, dbType: DbType.String, direction: ParameterDirection.Input);
+            var response = await client.HttpPostAsync(url, personModel);
 
-            await using var sqlConnection = new SqlConnection(connectionStrings.Value.DbConnection);
+            if (response.IsSuccessStatusCode) 
+            {
+                return true;
+            }
 
-            await sqlConnection.ExecuteAsync(
-            sql: storedProcedures.Value.InsertNewPerson,
-            param: param,
-            commandType: CommandType.StoredProcedure);
-
-            logger.LogInformation("{Announcement}: Attempt to create a person was successful.",
-                                    Constants.Succeeded);
-
-            return true;
+            return false;
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "{Announcement}: Attempt to create a person was unsuccessful.",
-                            Constants.Failed);
+                            LoggerConstants.Failed);
             return false;
         }
     }
 
-    public async Task<bool> DeleteAsync(int personCode)
+    public async Task<bool> DeletePersonAsync(int personCode)
     {
-        logger.LogInformation("Repository => Attempting to delete a person with code: {personCode}", personCode);
+        logger.LogInformation("Repository => Attempting to delete a person with code: {code}",
+            personCode);
 
         try
         {
-            var param = new DynamicParameters();
+            var url = apiEndpoints.Value.DeletePersonEndpoint;
 
-            param.Add(name: "@person_code", value: personCode, dbType: DbType.Int64, direction: ParameterDirection.Input);
+            var response = await client.HttpDeleteAsync(url.Replace("{personCode}", personCode.ToString()));
 
-            await using var sqlConnection = new SqlConnection(connectionStrings.Value.DbConnection);
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
 
-            await sqlConnection.ExecuteAsync(
-            sql: storedProcedures.Value.DeletePerson,
-            param: param,
-            commandType: CommandType.StoredProcedure);
-
-            logger.LogInformation("{Announcement}: Attempt to delete a person with code: {personCode} was successful.",
-                                    Constants.Succeeded,
-                                    personCode);
-
-            return true;
+            return false;
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "{Announcement}: Attempt to delete a person with code: {personCode} was unsuccessful.",
-                            Constants.Failed,
+            logger.LogError(ex, "{Announcement}: Attempt to delete a person with code: {code} was unsuccessful.",
+                            LoggerConstants.Failed,
                             personCode);
             return false;
         }
     }
 
-    public async Task<List<PersonsModel>?> RetrieveAllAsync()
+    public async Task<List<PersonsModel>?> GetPersonsAsync()
     {
-        logger.LogInformation("Repository => Attempting to retrieve all persons details");
+        var url = apiEndpoints.Value.GetPersonsEndpoint;
 
-        try 
-        {
-            await using var sqlConnection = new SqlConnection(connectionStrings.Value.DbConnection);
+        var result = await client.HttpGetAllAsync<PersonsModel>(url);
 
-            var persons = await sqlConnection.QueryAsync<PersonsModel>(
-                sql: storedProcedures.Value.GetAllPersons,
-                commandType: CommandType.StoredProcedure);
-
-            logger.LogInformation("{Announcement}: Attempt to retrieve all persons details was successful.", 
-                                    Constants.Succeeded);
-
-            return persons.ToList();
-        }
-        catch (Exception ex) 
-        {
-            logger.LogError(ex, "{Announcement}: Attempt to retrieve all persons details was unsuccessful.", 
-                            Constants.Failed);
-            return null;
-        }
+        return result;
     }
 
-    public async Task<bool> UpdateAsync(PersonsModel personModel)
+    public async Task<bool> UpdatePersonAsync(PersonsModel personModel)
     {
-        logger.LogInformation("Repository => Attempting to update a person with code: {personCode}", personModel.code);
+        logger.LogInformation("Repository => Attempting to update a person with code: {code}",
+            personModel.code);
 
         try
         {
-            var param = new DynamicParameters();
+            var url = apiEndpoints.Value.UpdatePersonEndpoint;
 
-            param.Add(name: "@code", value: personModel.code, dbType: DbType.String, direction: ParameterDirection.Input);
-            param.Add(name: "@name", value: personModel.name, dbType: DbType.String, direction: ParameterDirection.Input);
-            param.Add(name: "@surname", value: personModel.surname, dbType: DbType.String, direction: ParameterDirection.Input);
-            param.Add(name: "@id_number", value: personModel.id_number, dbType: DbType.String, direction: ParameterDirection.Input);
+            var response = await client.HttpPutAsync(url, personModel);
 
-            await using var sqlConnection = new SqlConnection(connectionStrings.Value.DbConnection);
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
 
-            await sqlConnection.ExecuteAsync(
-            sql: storedProcedures.Value.UpdatePerson,
-            param: param,
-            commandType: CommandType.StoredProcedure);
-
-            logger.LogInformation("{Announcement}: Attempt to update a person with code: {personCode} was successful.",
-                                    Constants.Succeeded,
-                                    personModel.code);
-
-            return true;
+            return false;
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "{Announcement}: Attempt to update a person with code: {personCode} was unsuccessful.",
-                            Constants.Failed,
+            logger.LogError(ex, "{Announcement}: Attempt to update a person with code: {code} was unsuccessful.",
+                            LoggerConstants.Failed,
                             personModel.code);
             return false;
         }

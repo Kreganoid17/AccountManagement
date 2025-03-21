@@ -9,40 +9,40 @@
             </div>
             <div class="modal-body">
                 @using (Html.BeginForm("update", "Persons", FormMethod.Post))
-        {
-            <div class="form-group">
+    {
+        <div class="form-group">
                         <label>Name:</label>
                         @Html.TextBoxFor(p => p.name, new { @class = "form-control" })
                     </div>
 
-            <br>
+        <br>
 
-            <div class="form-group">
+        <div class="form-group">
                         <label>Surname</label>
                         @Html.TextBoxFor(p => p.surname, new { @class = "form-control" })
                     </div>
 
-            <br>
+        <br>
 
-            <div class="form-group">
+        <div class="form-group">
                         <label>ID Number:</label>
                         @Html.TextBoxFor(p => p.id_number, new { @class = "form-control" })
                     </div>
 
-            <br>
+        <br>
 
-                <div class="form-group" style="display: none;">
+            <div class="form-group" style="display: none;">
                         @Html.LabelFor(p => p.code)
                         @Html.TextBoxFor(p => p.code, new { @class = "form-control", @readonly = true })
                     </div>
 
-            <br>
+        <br>
 
-                <div class="modal-footer">
+            <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <input type="submit" class="btn btn-primary">
                     </div>
-        }
+    }
             </div>
         </div>
     </div>

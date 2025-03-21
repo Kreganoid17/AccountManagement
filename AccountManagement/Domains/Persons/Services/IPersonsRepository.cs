@@ -1,14 +1,14 @@
-﻿using AccountManagement.Domains.Persons.Models;
+﻿using AccountManagment.Libraries.Shared.Domains.Persons.Models;
 
 namespace AccountManagement.Domains.Persons.Services;
 
 public interface IPersonsRepository
 {
-    Task<List<PersonsModel>?> RetrieveAllAsync();
+    Task<List<PersonsModel>?> GetPersonsAsync();
 
-    Task<bool> CreateAsync(PersonsModel personModel);
+    Task<bool> CreatePersonAsync(PersonsModel personModel);
 
-    Task<bool> UpdateAsync(PersonsModel personModel);
+    Task<bool> UpdatePersonAsync(PersonsModel personModel);
 
-    Task<bool> DeleteAsync(int personCode);   
+    Task<bool> DeletePersonAsync(int personCode); 
 }

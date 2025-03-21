@@ -1,6 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace AccountManagement.Domains.Persons.Models;
+namespace AccountManagment.Libraries.Shared.Domains.Persons.Models;
 
 public class PersonsModel
 {
@@ -15,5 +20,4 @@ public class PersonsModel
     [Required]
     [RegularExpression(@"^\d{13}$")]
     public string id_number { get; set; } = string.Empty;
-
 }

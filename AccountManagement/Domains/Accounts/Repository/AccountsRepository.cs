@@ -1,8 +1,8 @@
 ﻿using AccountManagement.Configuration;
 using AccountManagement.Domains.Accounts.Models;
 using AccountManagement.Domains.Accounts.Services;
-using AccountManagement.Domains.Persons.Models;
 using AccountManagement.Helpers;
+using AccountManagment.Libraries.Shared.Constants;
 using Dapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Options;
@@ -34,7 +34,7 @@ public class AccountsRepository(IOptionsSnapshot<ConnectionStringOptions> connec
             commandType: CommandType.StoredProcedure);
 
             logger.LogInformation("{Announcement}: Attempt to create a account for person with code: {personCode} was successful.",
-                                    Constants.Succeeded,
+                                    LoggerConstants.Succeeded,
                                     accountModel.person_code);
 
             return true;
@@ -42,7 +42,7 @@ public class AccountsRepository(IOptionsSnapshot<ConnectionStringOptions> connec
         catch (Exception ex)
         {
             logger.LogError(ex, "{Announcement}: Attempt to create a account for person with code: {personCode} was unsuccessful.",
-                            Constants.Failed,
+                            LoggerConstants.Failed,
                             accountModel.person_code);
             return false;
         }
@@ -66,7 +66,7 @@ public class AccountsRepository(IOptionsSnapshot<ConnectionStringOptions> connec
             commandType: CommandType.StoredProcedure);
 
             logger.LogInformation("{Announcement}: Attempt to delete an account with code: {accountCode} was successful.",
-                                    Constants.Succeeded,
+                                    LoggerConstants.Succeeded,
                                     accountCode);
 
             return true;
@@ -74,7 +74,7 @@ public class AccountsRepository(IOptionsSnapshot<ConnectionStringOptions> connec
         catch (Exception ex)
         {
             logger.LogError(ex, "{Announcement}: Attempt to delete an account with code: {accountCode} was unsuccessful.",
-                            Constants.Failed,
+                            LoggerConstants.Failed,
                             accountCode);
             return false;
         }
@@ -98,7 +98,7 @@ public class AccountsRepository(IOptionsSnapshot<ConnectionStringOptions> connec
                 commandType: CommandType.StoredProcedure);
 
             logger.LogInformation("{Announcement}: Attempt to retrieve account with Code: {accontCode} was successful.",
-                                    Constants.Succeeded,
+                                    LoggerConstants.Succeeded,
                                     accountCode);
 
             return account;
@@ -106,7 +106,7 @@ public class AccountsRepository(IOptionsSnapshot<ConnectionStringOptions> connec
         catch (Exception ex)
         {
             logger.LogError(ex, "{Announcement}: Attempt to retrieve account with Code: {accontCode} was unsuccessful.",
-                            Constants.Failed,
+                            LoggerConstants.Failed,
                             accountCode);
             return null;
         }
@@ -130,7 +130,7 @@ public class AccountsRepository(IOptionsSnapshot<ConnectionStringOptions> connec
                 commandType: CommandType.StoredProcedure);
 
             logger.LogInformation("{Announcement}: Attempt to retrieve all account data for person with code: {personCode} was successful.", 
-                                    Constants.Succeeded, 
+                                    LoggerConstants.Succeeded, 
                                     personCode);
 
             return accounts.ToList();
@@ -138,7 +138,7 @@ public class AccountsRepository(IOptionsSnapshot<ConnectionStringOptions> connec
         }catch (Exception ex) 
         {
             logger.LogError(ex, "{Announcement}: Attempt to retrieve all account data for person with code: {personCode} was unsuccessful.", 
-                Constants.Failed,
+                LoggerConstants.Failed,
                 personCode);
             return null;
         }

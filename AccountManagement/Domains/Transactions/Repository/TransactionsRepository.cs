@@ -1,9 +1,9 @@
 ﻿using AccountManagement.Configuration;
 using AccountManagement.Domains.Accounts.Models;
-using AccountManagement.Domains.Persons.Models;
 using AccountManagement.Domains.Transactions.Models;
 using AccountManagement.Domains.Transactions.Services;
 using AccountManagement.Helpers;
+using AccountManagment.Libraries.Shared.Constants;
 using Dapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Options;
@@ -37,7 +37,7 @@ public class TransactionsRepository(IOptionsSnapshot<ConnectionStringOptions> co
             commandType: CommandType.StoredProcedure);
 
             logger.LogInformation("{Announcement}: Attempt to create a transaction for account with code: {accountCode} was successful.",
-                                    Constants.Succeeded,
+                                    LoggerConstants.Succeeded,
                                     transactionModel.account_code);
 
             return true;
@@ -45,7 +45,7 @@ public class TransactionsRepository(IOptionsSnapshot<ConnectionStringOptions> co
         catch (Exception ex)
         {
             logger.LogError(ex, "{Announcement}: Attempt to create a transaction for account with code: {accountCode} unsuccessful.",
-                            Constants.Failed,
+                            LoggerConstants.Failed,
                             transactionModel.account_code);
             return false;
         }
@@ -69,7 +69,7 @@ public class TransactionsRepository(IOptionsSnapshot<ConnectionStringOptions> co
             commandType: CommandType.StoredProcedure);
 
             logger.LogInformation("{Announcement}: Attempt to delete a transaction with code: {transactionCode} was successful.",
-                                    Constants.Succeeded,
+                                    LoggerConstants.Succeeded,
                                     transactionCode);
 
             return true;
@@ -77,7 +77,7 @@ public class TransactionsRepository(IOptionsSnapshot<ConnectionStringOptions> co
         catch (Exception ex)
         {
             logger.LogError(ex, "{Announcement}: Attempt to delete a transaction with code: {transactionCode} was unsuccessful.",
-                            Constants.Failed,
+                            LoggerConstants.Failed,
                             transactionCode);
             return false;
         }
@@ -102,7 +102,7 @@ public class TransactionsRepository(IOptionsSnapshot<ConnectionStringOptions> co
                 commandType: CommandType.StoredProcedure);
 
             logger.LogInformation("{Announcement}: Attempt to retrieve all transactions with account code: {accountCode} was successful.",
-                                    Constants.Succeeded,
+                                    LoggerConstants.Succeeded,
                                     accountCode);
 
             return transactions.ToList();
@@ -110,7 +110,7 @@ public class TransactionsRepository(IOptionsSnapshot<ConnectionStringOptions> co
         }catch (Exception ex) 
         {
             logger.LogWarning(ex, "{Announcement}: Attempt to retrieve all transactions with account code: {accountCode} was unsuccessful.",
-                                Constants.Failed,
+                                LoggerConstants.Failed,
                                 accountCode);
             return null;
         }
@@ -134,7 +134,7 @@ public class TransactionsRepository(IOptionsSnapshot<ConnectionStringOptions> co
                 commandType: CommandType.StoredProcedure);
 
             logger.LogInformation("{Announcement}: Attempt to retrieve transation with Code: {transactionCode} was successful.",
-                                    Constants.Succeeded,
+                                    LoggerConstants.Succeeded,
                                     transactionCode);
 
             return transaction;
@@ -142,7 +142,7 @@ public class TransactionsRepository(IOptionsSnapshot<ConnectionStringOptions> co
         catch (Exception ex)
         {
             logger.LogError(ex, "{Announcement}: Attempt to retrieve transation with Code: {transactionCode} was unsuccessful.",
-                            Constants.Failed,
+                            LoggerConstants.Failed,
                             transactionCode);
             return null;
         }
@@ -170,7 +170,7 @@ public class TransactionsRepository(IOptionsSnapshot<ConnectionStringOptions> co
             commandType: CommandType.StoredProcedure);
 
             logger.LogInformation("{Announcement}: Attempt to update a transaction for account with code: {accountCode} was successful.",
-                                    Constants.Succeeded,
+                                    LoggerConstants.Succeeded,
                                     transactionModel.account_code);
 
             return true;
@@ -178,7 +178,7 @@ public class TransactionsRepository(IOptionsSnapshot<ConnectionStringOptions> co
         catch (Exception ex)
         {
             logger.LogError(ex, "{Announcement}: Attempt to update a transaction for account with code: {accountCode} unsuccessful.",
-                            Constants.Failed,
+                            LoggerConstants.Failed,
                             transactionModel.account_code);
             return false;
         }
