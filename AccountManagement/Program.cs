@@ -3,12 +3,16 @@ using AccountManagement.Configuration;
 using AccountManagement.Domains.Accounts;
 using AccountManagement.Domains.Persons;
 using AccountManagement.Domains.Transactions;
+using HttpClientLibrary.HttpClientService;
+using HttpClientLibrary.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using Serilog.Enrichers.Span;
 using System.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var baseUrl = builder.Configuration["HttpClientApiUris:AccountManagementAPIAddress"] ?? throw new InvalidOperationException("The API configuration key is missing: AccountManagementAPIAddress");
 
 builder.Host.UseSerilog((hostBuilderContext, loggerConfiguration) =>
 {
@@ -29,6 +33,13 @@ builder.Services.Configure<ConnectionStringOptions>(
 
 builder.Services.Configure<StoredProcedureOptions>(
     builder.Configuration.GetSection("StoredProcedures"));
+
+builder.Services.AddHttpClient(AccountManagement.Helpers.Constants.httpClientName, client =>
+{
+    client.BaseAddress = new Uri(baseUrl);
+});
+
+builder.Services.AddScoped(typeof(IHttpClientHelper<>), typeof(HttpClientHelper<>));
 
 builder.Services.AddPersonsServices();
 builder.Services.AddAccountsServices();

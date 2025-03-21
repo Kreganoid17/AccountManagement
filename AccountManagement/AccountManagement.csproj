@@ -29,4 +29,8 @@
     <PackageReference Include="Serilog.Enrichers.Span" Version="3.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Heads_Up_BO\src\Libraries\HttpClientLibrary\HttpClientLibrary.csproj" />
+  </ItemGroup>
+
 </Project>
