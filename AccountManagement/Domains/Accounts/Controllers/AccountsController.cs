@@ -1,5 +1,5 @@
 ﻿using AccountManagement.Domains.Accounts.Services;
-using AccountManagment.Libraries.Shared.Domains.Accounts;
+using AccountManagment.Libraries.Shared.Domains.Accounts.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AccountManagement.Domains.Accounts.Controllers;

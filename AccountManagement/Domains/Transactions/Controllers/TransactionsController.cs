@@ -1,7 +1,5 @@
-﻿using AccountManagement.Domains.Persons.Repository;
-using AccountManagement.Domains.Persons.Services;
-using AccountManagement.Domains.Transactions.Models;
-using AccountManagement.Domains.Transactions.Services;
+﻿using AccountManagement.Domains.Transactions.Services;
+using AccountManagment.Libraries.Shared.Domains.Transactions.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AccountManagement.Domains.Transactions.Controllers;
@@ -21,7 +19,7 @@ public class TransactionsController(ITransactionsRepository transactionsReposito
     {
         if (ModelState.IsValid)
         {
-            var isCreated = await transactionsRepository.CreateAsync(transactionsModel);
+            var isCreated = await transactionsRepository.CreateTransactionAsync(transactionsModel);
 
             if (isCreated)
             {
@@ -48,7 +46,7 @@ public class TransactionsController(ITransactionsRepository transactionsReposito
     {
         if (ModelState.IsValid)
         {
-            var isUpdated = await transactionsRepository.UpdateAsync(transactionsModel);
+            var isUpdated = await transactionsRepository.UpdateTransactionAsync(transactionsModel);
 
             if (isUpdated)
             {
@@ -75,9 +73,9 @@ public class TransactionsController(ITransactionsRepository transactionsReposito
     [HttpPost("delete/transaction/{transactionCode}")]
     public async Task<IActionResult> DeleteAsync(int transactionCode)
     {
-        var transaction = await transactionsRepository.RetrieveSingleAsync(transactionCode);
+        var transaction = await transactionsRepository.RetrieveTransactionByTransactionCodeAsync(transactionCode);
 
-        var isDeleted = await transactionsRepository.DeleteAsync(transactionCode);
+        var isDeleted = await transactionsRepository.DeleteTransactionAsync(transactionCode);
 
         if (isDeleted)
         {

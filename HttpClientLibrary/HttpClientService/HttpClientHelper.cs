@@ -1,6 +1,4 @@
-﻿using HttpClientLibrary.Helpers;
-using System.Net.Http.Json;
-using System.Reflection;
+﻿using System.Net.Http.Json;
 
 namespace HttpClientLibrary.HttpClientService;
 

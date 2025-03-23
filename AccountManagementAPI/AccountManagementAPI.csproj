@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AccountManagement\AccountManagement.csproj" />
     <ProjectReference Include="..\AccountManagment.Libraries.Shared\AccountManagment.Libraries.Shared.csproj" />
   </ItemGroup>
 

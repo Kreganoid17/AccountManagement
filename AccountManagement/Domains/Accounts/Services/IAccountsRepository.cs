@@ -1,4 +1,4 @@
-﻿using AccountManagment.Libraries.Shared.Domains.Accounts;
+﻿using AccountManagment.Libraries.Shared.Domains.Accounts.Models;
 
 namespace AccountManagement.Domains.Accounts.Services;
 

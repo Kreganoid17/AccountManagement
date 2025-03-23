@@ -29,12 +29,6 @@ builder.Services.AddControllers(configure =>
 
 var apiBaseAddress = builder.Configuration["HttpClientApiUris:AccountManagementAPIAddress"];
 
-builder.Services.Configure<ConnectionStringOptions>(
-    builder.Configuration.GetSection("ConnectionStrings"));
-
-builder.Services.Configure<StoredProcedureOptions>(
-    builder.Configuration.GetSection("StoredProcedures"));
-
 builder.Services.Configure<ApiEndpointsConfiguration>(
     builder.Configuration.GetSection("ApiEndpoints"));
 

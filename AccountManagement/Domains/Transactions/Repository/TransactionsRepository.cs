@@ -1,44 +1,36 @@
 ﻿using AccountManagement.Configuration;
-using AccountManagement.Domains.Transactions.Models;
 using AccountManagement.Domains.Transactions.Services;
 using AccountManagment.Libraries.Shared.Constants;
-using Dapper;
-using Microsoft.Data.SqlClient;
+using AccountManagment.Libraries.Shared.Domains.Transactions.Models;
+using HttpClientLibrary.HttpClientService;
 using Microsoft.Extensions.Options;
-using System.Data;
 
 namespace AccountManagement.Domains.Transactions.Repository;
 
-public class TransactionsRepository(IOptionsSnapshot<ConnectionStringOptions> connectionStrings,
-                                    IOptionsSnapshot<StoredProcedureOptions> storedProcedures,
+public class TransactionsRepository(IOptionsSnapshot<ApiEndpointsConfiguration> apiEndpoints,
+                                    IHttpClientHelper client,
                                     ILogger<TransactionsRepository> logger) : ITransactionsRepository
 {
-    public async Task<bool> CreateAsync(TransactionsModel transactionModel)
+    public async Task<bool> CreateTransactionAsync(TransactionsModel transactionModel)
     {
         logger.LogInformation("Repository => Attempting to create a transaction for account with code: {accountCode}", transactionModel.account_code);
 
         try
         {
-            var param = new DynamicParameters();
+            var url = apiEndpoints.Value.CreateTransactionEndpoint;
 
-            param.Add(name: "@account_code", value: transactionModel.account_code, dbType: DbType.String, direction: ParameterDirection.Input);
-            param.Add(name: "@transaction_date", value: transactionModel.transaction_date, dbType: DbType.DateTime, direction: ParameterDirection.Input);
-            param.Add(name: "@capture_date", value: transactionModel.capture_date, dbType: DbType.DateTime, direction: ParameterDirection.Input);
-            param.Add(name: "@amount", value: transactionModel.amount, dbType: DbType.Decimal, direction: ParameterDirection.Input);
-            param.Add(name: "@description", value: transactionModel.description, dbType: DbType.String, direction: ParameterDirection.Input);
+            var response = await client.HttpPostAsync(url, transactionModel);
 
-            await using var sqlConnection = new SqlConnection(connectionStrings.Value.DbConnection);
-
-            await sqlConnection.ExecuteAsync(
-            sql: storedProcedures.Value.InsertNewTransaction,
-            param: param,
-            commandType: CommandType.StoredProcedure);
+            if (response.IsSuccessStatusCode) 
+            {
+                return true;
+            }
 
             logger.LogInformation("{Announcement}: Attempt to create a transaction for account with code: {accountCode} was successful.",
                                     LoggerConstants.Succeeded,
                                     transactionModel.account_code);
 
-            return true;
+            return false;
         }
         catch (Exception ex)
         {
@@ -49,28 +41,27 @@ public class TransactionsRepository(IOptionsSnapshot<ConnectionStringOptions> co
         }
     }
 
-    public async Task<bool> DeleteAsync(int transactionCode)
+    public async Task<bool> DeleteTransactionAsync(int transactionCode)
     {
         logger.LogInformation("Repository => Attempting to delete a transaction with code: {transactionCode}", transactionCode);
 
         try
         {
-            var param = new DynamicParameters();
+            var url = apiEndpoints.Value.DeleteTransactionEndpoint.Replace("{transactionCode}", transactionCode.ToString());
 
-            param.Add(name: "@transaction_code", value: transactionCode, dbType: DbType.Int64, direction: ParameterDirection.Input);
+            var response = await client.HttpDeleteAsync(url);
 
-            await using var sqlConnection = new SqlConnection(connectionStrings.Value.DbConnection);
-
-            await sqlConnection.ExecuteAsync(
-            sql: storedProcedures.Value.DeleteTransaction,
-            param: param,
-            commandType: CommandType.StoredProcedure);
+            if (response.IsSuccessStatusCode) 
+            {
+                return true;
+            }
 
             logger.LogInformation("{Announcement}: Attempt to delete a transaction with code: {transactionCode} was successful.",
                                     LoggerConstants.Succeeded,
                                     transactionCode);
 
-            return true;
+            return false;
+            
         }
         catch (Exception ex)
         {
@@ -88,22 +79,15 @@ public class TransactionsRepository(IOptionsSnapshot<ConnectionStringOptions> co
         try 
         {
 
-            using var SqlConnection = new SqlConnection(connectionStrings.Value.DbConnection);
+            var url = apiEndpoints.Value.GetTransactionsByAccountCodeEndpoint.Replace("{accountCode}", accountCode.ToString());
 
-            var param = new DynamicParameters();
-
-            param.Add("@accountCode", accountCode, DbType.Int64, ParameterDirection.Input);
-
-            var transactions = await SqlConnection.QueryAsync<TransactionsModel>(
-                sql: storedProcedures.Value.GetAllTransactionsByAccountCode,
-                param: param,
-                commandType: CommandType.StoredProcedure);
+            var transactions = await client.HttpGetAllAsync<TransactionsModel>(url);
 
             logger.LogInformation("{Announcement}: Attempt to retrieve all transactions with account code: {accountCode} was successful.",
                                     LoggerConstants.Succeeded,
                                     accountCode);
 
-            return transactions.ToList();
+            return transactions;
 
         }catch (Exception ex) 
         {
@@ -114,22 +98,15 @@ public class TransactionsRepository(IOptionsSnapshot<ConnectionStringOptions> co
         }
     }
 
-    public async Task<TransactionsModel?> RetrieveSingleAsync(int transactionCode)
+    public async Task<TransactionsModel?> RetrieveTransactionByTransactionCodeAsync(int transactionCode)
     {
         logger.LogInformation("Repository => Attempting to retrieve transation with Code: {transactionCode} details", transactionCode);
 
         try
         {
-            var param = new DynamicParameters();
+            var url = apiEndpoints.Value.GetTransactionByTransactionCodeEndpoint.Replace("{transactionCode}", transactionCode.ToString());
 
-            param.Add(name: "@transaction_code", value: transactionCode, dbType: DbType.Int64, direction: ParameterDirection.Input);
-
-            await using var sqlConnection = new SqlConnection(connectionStrings.Value.DbConnection);
-
-            var transaction = await sqlConnection.QueryFirstOrDefaultAsync<TransactionsModel>(
-                param: param,
-                sql: storedProcedures.Value.GetTransactionById,
-                commandType: CommandType.StoredProcedure);
+            var transaction = await client.HttpGetByIdAsync<TransactionsModel>(url);
 
             logger.LogInformation("{Announcement}: Attempt to retrieve transation with Code: {transactionCode} was successful.",
                                     LoggerConstants.Succeeded,
@@ -146,32 +123,26 @@ public class TransactionsRepository(IOptionsSnapshot<ConnectionStringOptions> co
         }
     }
 
-    public async Task<bool> UpdateAsync(TransactionsModel transactionModel)
+    public async Task<bool> UpdateTransactionAsync(TransactionsModel transactionModel)
     {
         logger.LogInformation("Repository => Attempting to update a transaction for account with code: {accountCode}", transactionModel.account_code);
 
         try
         {
-            var param = new DynamicParameters();
+            var url = apiEndpoints.Value.UpdateTransactionEndpoint;
 
-            param.Add(name: "@transaction_code", value: transactionModel.code, dbType: DbType.Int64, direction: ParameterDirection.Input);
-            param.Add(name: "@transaction_date", value: transactionModel.transaction_date, dbType: DbType.DateTime, direction: ParameterDirection.Input);
-            param.Add(name: "@capture_date", value: transactionModel.capture_date, dbType: DbType.DateTime, direction: ParameterDirection.Input);
-            param.Add(name: "@amount", value: transactionModel.amount, dbType: DbType.Decimal, direction: ParameterDirection.Input);
-            param.Add(name: "@description", value: transactionModel.description, dbType: DbType.String, direction: ParameterDirection.Input);
+            var response = await client.HttpPutAsync(url, transactionModel);
 
-            await using var sqlConnection = new SqlConnection(connectionStrings.Value.DbConnection);
-
-            await sqlConnection.ExecuteAsync(
-            sql: storedProcedures.Value.UpdateTransaction,
-            param: param,
-            commandType: CommandType.StoredProcedure);
+            if (response.IsSuccessStatusCode) 
+            {
+                return true;
+            }
 
             logger.LogInformation("{Announcement}: Attempt to update a transaction for account with code: {accountCode} was successful.",
                                     LoggerConstants.Succeeded,
                                     transactionModel.account_code);
 
-            return true;
+            return false;
         }
         catch (Exception ex)
         {

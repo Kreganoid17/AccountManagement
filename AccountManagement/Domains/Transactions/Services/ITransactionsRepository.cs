@@ -1,4 +1,4 @@
-﻿using AccountManagement.Domains.Transactions.Models;
+﻿using AccountManagment.Libraries.Shared.Domains.Transactions.Models;
 
 namespace AccountManagement.Domains.Transactions.Services;
 
@@ -6,11 +6,11 @@ public interface ITransactionsRepository
 {
     Task<List<TransactionsModel>?> RetrieveAllTransactionsByAccountCode(int accountCode);
 
-    Task<TransactionsModel?> RetrieveSingleAsync(int transactionCode);
+    Task<TransactionsModel?> RetrieveTransactionByTransactionCodeAsync(int transactionCode);
 
-    Task<bool> CreateAsync(TransactionsModel transactionModel);
+    Task<bool> CreateTransactionAsync(TransactionsModel transactionModel);
 
-    Task<bool> UpdateAsync(TransactionsModel transactionsModel);
+    Task<bool> UpdateTransactionAsync(TransactionsModel transactionModel);
 
-    Task<bool> DeleteAsync(int personCode);
+    Task<bool> DeleteTransactionAsync(int transactionCode);
 }

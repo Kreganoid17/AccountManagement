@@ -1,13 +1,9 @@
 ﻿using AccountManagement.Configuration;
 using AccountManagement.Domains.Accounts.Services;
 using AccountManagment.Libraries.Shared.Constants;
-using AccountManagment.Libraries.Shared.Domains.Accounts;
-using AccountManagment.Libraries.Shared.Domains.Persons.Models;
-using Dapper;
+using AccountManagment.Libraries.Shared.Domains.Accounts.Models;
 using HttpClientLibrary.HttpClientService;
-using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Options;
-using System.Data;
 
 namespace AccountManagement.Domains.Accounts.Repository;
 

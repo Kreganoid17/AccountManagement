@@ -1,6 +1,7 @@
 using AccountManagementAPI.Configuration;
 using AccountManagementAPI.Domains.Accounts;
 using AccountManagementAPI.Domains.Persons;
+using AccountManagementAPI.Domains.Transactions;
 using AccountManagementAPI.Helpers;
 using Microsoft.OpenApi.Models;
 using Serilog;
@@ -47,6 +48,7 @@ builder.Services.AddSwaggerGen(setup =>
 
     AddSwaggerDoc("OpenApiSpecificationForPersons", "Account Management API [Persons]", "This API provides functionality to manage persons");
     AddSwaggerDoc("OpenApiSpecificationForAccounts", "Account Management API [Accounts]", "This API provides functionality to manage accounts for a person");
+    AddSwaggerDoc("OpenApiSpecificationForTransactions", "Account Management API [Transactions]", "This API provides functionality to manage transactions for a account of a person");
 
 }
 );
@@ -54,6 +56,7 @@ builder.Services.AddSwaggerGen(setup =>
 builder.Services.AddScoped<Stopwatch>();
 builder.Services.AddPersonsServices();
 builder.Services.AddAccountsServices();
+builder.Services.AddTransactionsServices();
 
 var app = builder.Build();
 
@@ -70,6 +73,10 @@ if (app.Environment.IsDevelopment())
         setup.SwaggerEndpoint(
             url: "/swagger/OpenApiSpecificationForAccounts/swagger.json",
             name: "Account Management API [Accounts]");
+        
+        setup.SwaggerEndpoint(
+            url: "/swagger/OpenApiSpecificationForTransactions/swagger.json",
+            name: "Account Management API [Transactions]");
     });
 
     app.Map("/", HttpContext => Task.Run(() => HttpContext.Response.Redirect("/swagger"))).ShortCircuit();
