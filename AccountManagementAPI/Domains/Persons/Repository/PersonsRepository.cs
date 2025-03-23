@@ -45,7 +45,7 @@ public class PersonsRepository(IOptionsSnapshot<ConnectionStringOptions> connect
         }
     }
 
-    public async Task<List<PersonsModel>?> RetreiveAllAsync() 
+    public async Task<List<PersonsModel>?> RetrieveAllAsync() 
     {
         logger.LogInformation("Repository => Attempting to retrieve all persons details");
 

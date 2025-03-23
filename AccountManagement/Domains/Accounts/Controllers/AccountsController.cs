@@ -1,5 +1,5 @@
-﻿using AccountManagement.Domains.Accounts.Models;
-using AccountManagement.Domains.Accounts.Services;
+﻿using AccountManagement.Domains.Accounts.Services;
+using AccountManagment.Libraries.Shared.Domains.Accounts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AccountManagement.Domains.Accounts.Controllers;
@@ -10,7 +10,7 @@ public class AccountsController(IAccountsRepository accountsRepository) : Contro
     public async Task<IActionResult> Accounts(int personCode)
     {
         ViewData["PersonCode"] = personCode;
-        return View(await accountsRepository.RetrieveAllAccountsByPersonsId(personCode));
+        return View(await accountsRepository.RetrieveAllAccountsByPersonsCode(personCode));
     }
 
     [HttpPost("create/account")]
@@ -18,7 +18,7 @@ public class AccountsController(IAccountsRepository accountsRepository) : Contro
     {
         if (ModelState.IsValid)
         {
-            var isCreated = await accountsRepository.CreateAsync(accountModel);
+            var isCreated = await accountsRepository.CreateAccountAsync(accountModel);
 
             if (isCreated)
             {
@@ -42,9 +42,9 @@ public class AccountsController(IAccountsRepository accountsRepository) : Contro
     [HttpPost("delete/account/{accountCode}")]
     public async Task<IActionResult> DeleteAsync(int accountCode)
     {
-        var account = await accountsRepository.RetrieveSingleAsync(accountCode);
+        var account = await accountsRepository.RetrieveAccountByAccountCodeAsync(accountCode);
 
-        var isDeleted = await accountsRepository.DeleteAsync(accountCode);
+        var isDeleted = await accountsRepository.DeleteAccountByAccountCodeAsync(accountCode);
 
         if (isDeleted)
         {

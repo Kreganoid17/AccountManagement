@@ -6,7 +6,7 @@ public interface IPersonsRepository
 {
     Task<bool> CreateAsync(PersonsModel personModel);
 
-    Task<List<PersonsModel>?> RetreiveAllAsync();
+    Task<List<PersonsModel>?> RetrieveAllAsync();
 
     Task<bool> UpdateAsync(PersonsModel personModel);
 

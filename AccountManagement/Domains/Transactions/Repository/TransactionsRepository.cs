@@ -1,8 +1,6 @@
 ﻿using AccountManagement.Configuration;
-using AccountManagement.Domains.Accounts.Models;
 using AccountManagement.Domains.Transactions.Models;
 using AccountManagement.Domains.Transactions.Services;
-using AccountManagement.Helpers;
 using AccountManagment.Libraries.Shared.Constants;
 using Dapper;
 using Microsoft.Data.SqlClient;

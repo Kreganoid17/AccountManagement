@@ -36,7 +36,7 @@ public class PersonsRepository(IOptionsSnapshot<ApiEndpointsConfiguration> apiEn
         }
     }
 
-    public async Task<bool> DeletePersonAsync(int personCode)
+    public async Task<bool> DeletePersonByPersonCodeAsync(int personCode)
     {
         logger.LogInformation("Repository => Attempting to delete a person with code: {code}",
             personCode);

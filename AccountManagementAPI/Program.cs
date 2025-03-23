@@ -1,4 +1,5 @@
 using AccountManagementAPI.Configuration;
+using AccountManagementAPI.Domains.Accounts;
 using AccountManagementAPI.Domains.Persons;
 using AccountManagementAPI.Helpers;
 using Microsoft.OpenApi.Models;
@@ -45,12 +46,14 @@ builder.Services.AddSwaggerGen(setup =>
     }
 
     AddSwaggerDoc("OpenApiSpecificationForPersons", "Account Management API [Persons]", "This API provides functionality to manage persons");
+    AddSwaggerDoc("OpenApiSpecificationForAccounts", "Account Management API [Accounts]", "This API provides functionality to manage accounts for a person");
 
 }
 );
 
 builder.Services.AddScoped<Stopwatch>();
 builder.Services.AddPersonsServices();
+builder.Services.AddAccountsServices();
 
 var app = builder.Build();
 
@@ -63,6 +66,10 @@ if (app.Environment.IsDevelopment())
         setup.SwaggerEndpoint(
             url: "/swagger/OpenApiSpecificationForPersons/swagger.json",
             name: "Account Management API [Persons]");
+        
+        setup.SwaggerEndpoint(
+            url: "/swagger/OpenApiSpecificationForAccounts/swagger.json",
+            name: "Account Management API [Accounts]");
     });
 
     app.Map("/", HttpContext => Task.Run(() => HttpContext.Response.Redirect("/swagger"))).ShortCircuit();

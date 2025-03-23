@@ -12,7 +12,7 @@ public class PersonsController(IPersonsRepository personsRepository) : Controlle
     [HttpGet]
     public async Task<ActionResult<List<PersonsModel>>> RetrieveAllAsync() 
     {
-        var persons = await personsRepository.RetreiveAllAsync();
+        var persons = await personsRepository.RetrieveAllAsync();
 
         return Ok(persons);
     }

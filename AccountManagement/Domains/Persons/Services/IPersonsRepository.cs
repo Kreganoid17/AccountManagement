@@ -10,5 +10,5 @@ public interface IPersonsRepository
 
     Task<bool> UpdatePersonAsync(PersonsModel personModel);
 
-    Task<bool> DeletePersonAsync(int personCode); 
+    Task<bool> DeletePersonByPersonCodeAsync(int personCode); 
 }

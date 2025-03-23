@@ -71,7 +71,7 @@ public class PersonsController(IPersonsRepository personsRepository) : Controlle
     [HttpPost("delete/person/{personCode}")]
     public async Task<IActionResult> DeleteAsync(int personCode) 
     {
-        var isDeleted = await personsRepository.DeletePersonAsync(personCode);
+        var isDeleted = await personsRepository.DeletePersonByPersonCodeAsync(personCode);
 
         if (isDeleted)
         {

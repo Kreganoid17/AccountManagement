@@ -1,43 +1,36 @@
 ﻿using AccountManagement.Configuration;
-using AccountManagement.Domains.Accounts.Models;
 using AccountManagement.Domains.Accounts.Services;
-using AccountManagement.Helpers;
 using AccountManagment.Libraries.Shared.Constants;
+using AccountManagment.Libraries.Shared.Domains.Accounts;
+using AccountManagment.Libraries.Shared.Domains.Persons.Models;
 using Dapper;
+using HttpClientLibrary.HttpClientService;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Options;
 using System.Data;
 
 namespace AccountManagement.Domains.Accounts.Repository;
 
-public class AccountsRepository(IOptionsSnapshot<ConnectionStringOptions> connectionStrings,
-                                IOptionsSnapshot<StoredProcedureOptions> storedProcedures,
+public class AccountsRepository(IOptionsSnapshot<ApiEndpointsConfiguration> apiEndpoints,
+                                IHttpClientHelper client,
                                 ILogger<AccountsRepository> logger) : IAccountsRepository
 {
-    public async Task<bool> CreateAsync(AccountsModel accountModel)
+    public async Task<bool> CreateAccountAsync(AccountsModel accountModel)
     {
         logger.LogInformation("Repository => Attempting to create a account for person with code: {personCode}", accountModel.person_code);
 
         try
         {
-            var param = new DynamicParameters();
+            var url = apiEndpoints.Value.CreateAccountEnpoint;
 
-            param.Add(name: "@person_code", value: accountModel.person_code, dbType: DbType.Int64, direction: ParameterDirection.Input);
-            param.Add(name: "@account_number", value: accountModel.account_number, dbType: DbType.Int64, direction: ParameterDirection.Input);
-            param.Add(name: "@outstanding_balance", value: accountModel.outstanding_balance, dbType: DbType.Decimal, direction: ParameterDirection.Input);
+            var response = await client.HttpPostAsync(url, accountModel);
 
-            await using var sqlConnection = new SqlConnection(connectionStrings.Value.DbConnection);
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
 
-            await sqlConnection.ExecuteAsync(
-            sql: storedProcedures.Value.InsertNewAccount,
-            param: param,
-            commandType: CommandType.StoredProcedure);
-
-            logger.LogInformation("{Announcement}: Attempt to create a account for person with code: {personCode} was successful.",
-                                    LoggerConstants.Succeeded,
-                                    accountModel.person_code);
-
-            return true;
+            return false;
         }
         catch (Exception ex)
         {
@@ -48,28 +41,22 @@ public class AccountsRepository(IOptionsSnapshot<ConnectionStringOptions> connec
         }
     }
 
-    public async Task<bool> DeleteAsync(int accountCode)
+    public async Task<bool> DeleteAccountByAccountCodeAsync(int accountCode)
     {
         logger.LogInformation("Repository => Attempting to delete an account with code: {accountCode}", accountCode);
 
         try
         {
-            var param = new DynamicParameters();
+            var url = apiEndpoints.Value.DeleteAccountEndpoint.Replace("{accountCode}", accountCode.ToString());
 
-            param.Add(name: "@account_code", value: accountCode, dbType: DbType.Int64, direction: ParameterDirection.Input);
+            var response = await client.HttpDeleteAsync(url);
 
-            await using var sqlConnection = new SqlConnection(connectionStrings.Value.DbConnection);
+            if (response.IsSuccessStatusCode) 
+            {
+                return true;
+            }
 
-            await sqlConnection.ExecuteAsync(
-            sql: storedProcedures.Value.DeleteAccount,
-            param: param,
-            commandType: CommandType.StoredProcedure);
-
-            logger.LogInformation("{Announcement}: Attempt to delete an account with code: {accountCode} was successful.",
-                                    LoggerConstants.Succeeded,
-                                    accountCode);
-
-            return true;
+            return false;
         }
         catch (Exception ex)
         {
@@ -80,22 +67,15 @@ public class AccountsRepository(IOptionsSnapshot<ConnectionStringOptions> connec
         }
     }
 
-    public async Task<AccountsModel?> RetrieveSingleAsync(int accountCode)
+    public async Task<AccountsModel?> RetrieveAccountByAccountCodeAsync(int accountCode)
     {
         logger.LogInformation("Repository => Attempting to retrieve account with Code: {accontCode} details", accountCode);
 
         try
         {
-            var param = new DynamicParameters();
+            var url = apiEndpoints.Value.GetAccountByAccountCodeEndpoint.Replace("{accountCode}", accountCode.ToString());
 
-            param.Add(name: "@account_code", value: accountCode, dbType: DbType.Int64, direction: ParameterDirection.Input);
-
-            await using var sqlConnection = new SqlConnection(connectionStrings.Value.DbConnection);
-
-            var account = await sqlConnection.QueryFirstOrDefaultAsync<AccountsModel>(
-                param: param,
-                sql: storedProcedures.Value.GetAccountById,
-                commandType: CommandType.StoredProcedure);
+            var account = await client.HttpGetByIdAsync<AccountsModel>(url);
 
             logger.LogInformation("{Announcement}: Attempt to retrieve account with Code: {accontCode} was successful.",
                                     LoggerConstants.Succeeded,
@@ -112,28 +92,21 @@ public class AccountsRepository(IOptionsSnapshot<ConnectionStringOptions> connec
         }
     }
 
-    public async Task<List<AccountsModel>?> RetrieveAllAccountsByPersonsId(int personCode)
+    public async Task<List<AccountsModel>?> RetrieveAllAccountsByPersonsCode(int personCode)
     {
         logger.LogInformation("Repository => Attempting to retrieve all account data for person with code: {personCode}", personCode);
 
         try 
         {
-            await using var sqlConnection = new SqlConnection(connectionStrings.Value.DbConnection);
+            var url = apiEndpoints.Value.GetAccountsByPersonCodeEndpoint.Replace("{personCode}", personCode.ToString());
 
-            var param = new DynamicParameters();
-
-            param.Add(name: "@person_code", value: personCode, dbType: DbType.Int64, direction: ParameterDirection.Input);
-
-            var accounts = await sqlConnection.QueryAsync<AccountsModel>(
-                sql: storedProcedures.Value.GetAllAccountsByPersonCode,
-                param: param,
-                commandType: CommandType.StoredProcedure);
+            var accounts = await client.HttpGetAllAsync<AccountsModel>(url);
 
             logger.LogInformation("{Announcement}: Attempt to retrieve all account data for person with code: {personCode} was successful.", 
                                     LoggerConstants.Succeeded, 
                                     personCode);
 
-            return accounts.ToList();
+            return accounts;
 
         }catch (Exception ex) 
         {
