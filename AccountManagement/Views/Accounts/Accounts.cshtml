@@ -35,16 +35,14 @@ person_code = (int)ViewData["PersonCode"]
     <tr>
                 <td>@account.account_number</td>
                 <td>R @account.outstanding_balance</td>
-                <td class="d-flex gap-2">
+                <td>
                     <a href="@Url.Action("Transactions", "Transactions", new { accountCode = account.code })" class="btn btn-primary">
                         View Transactions
                     </a>
-
-                    <form action="@Url.Action("Delete", "Accounts", new { accountCode = account.code })" method="post">
-                        @Html.AntiForgeryToken()
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
+                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#DeleteAccountModal_@account.code">Delete</button>
                 </td>
+
+                @await Html.PartialAsync("_DeleteAccountModal", account)
             </tr>
 }
     </tbody>

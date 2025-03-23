@@ -1,0 +1,27 @@
+﻿@model TransactionsModel
+
+<div class="modal fade" id="DeleteTransactionModal_@Model.code" tabindex="-1" aria-labelledby="DeleteTransactionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="DeleteTransactionModalLabel">Delete Transaction</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("delete", "transactions", new { transactionCode = Model.code }, FormMethod.Post))
+                {
+                    <p>Are you sure you want to delete the following account:</p>
+
+                    <br>
+
+                    <p>@Model.code with amount: @Model.amount</p>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

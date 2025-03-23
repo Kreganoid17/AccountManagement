@@ -12,7 +12,7 @@
 {
     <div class="form-group">
                         <label>Account Number:</label>
-                        @Html.TextBoxFor(p => p.account_number, new { @class = "form-control" })
+                        @Html.TextBoxFor(a => a.account_number, new { @class = "form-control" })
                     </div>
 
     <br>
@@ -20,7 +20,7 @@
         <br>
 
     <div class="form-group" style="display: none;">
-                        @Html.TextBoxFor(p => p.person_code, new { @class = "form-control", @readonly = true })
+                        @Html.TextBoxFor(a => a.person_code, new { @class = "form-control", @readonly = true })
                     </div>
 
     <br>

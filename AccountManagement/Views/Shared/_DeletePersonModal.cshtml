@@ -1,0 +1,27 @@
+﻿@model PersonsModel
+
+<div class="modal fade" id="DeletePersonModal_@Model.code" tabindex="-1" aria-labelledby="DeletePersonModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="DeletePersonModalLabel">Delete Person</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("delete", "persons", new { personCode = Model.code }, FormMethod.Post))
+                {
+                    <p>Are you sure you want to delete the following person:</p>
+
+                    <br>
+
+                    <p>@Model.name @Model.surname</p>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

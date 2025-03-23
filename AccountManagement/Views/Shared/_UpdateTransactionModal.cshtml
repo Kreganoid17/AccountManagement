@@ -4,46 +4,62 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="UpdateTransactionModalLabel">Update Person</h5>
+                <h5 class="modal-title" id="UpdateTransactionModalLabel">Update Transaction</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 @using (Html.BeginForm("Update", "Transactions", FormMethod.Post))
 {
-    <div class="form-group" style="display: none;">
-                        @Html.TextBoxFor(t => t.code, new { @class = "form-control", @readonly = true })
-                    </div>
+                <div class="form-group" style="display: none;">
+                    @Html.TextBoxFor(t => t.code, new { @class = "form-control", @readonly = true })
+                </div>
 
-            <br>
+                <br>
 
-    <div class="form-group" style="display: none;">
-                        @Html.TextBoxFor(t => t.account_code, new { @class = "form-control", @readonly = true })
-                    </div>
+                <div class="form-group" style="display: none;">
+                    @Html.TextBoxFor(t => t.account_code, new { @class = "form-control", @readonly = true })
+                </div>
 
-    <br>
+                <br>
 
-        <div class="form-group">
-                        <label>Transaction Date:</label>
-                        @Html.TextBoxFor(t => t.transaction_date, new { @class = "form-control", type = "datetime-local" })
-                    </div>
+                <div class="form-group">
+                    <label>Transaction Date:</label>
+                    @Html.TextBoxFor(t => t.transaction_date, new { @class = "form-control", type = "datetime-local" })
+                </div>
 
-    <br>
+                <br>
 
-    <div class="form-group">
-                        <label>Amount:</label>
-                        @Html.TextBoxFor(t => t.amount, new { @class = "form-control" })
-                    </div>
+                <div class="form-group">
+                    <label>Amount:</label>
+                    @Html.TextBoxFor(t => t.amount, new { @class = "form-control" })
+                </div>
 
-    <br>
+                <br>
 
-    <div class="form-group">
-                        <label>Description:</label>
-                        @Html.TextBoxFor(t => t.description, new { @class = "form-control" })
-                    </div>
+                <div class="form-group">
+                    <label>Transaction Type:</label>
+                    @Html.DropDownListFor(t => t.transaction_type,
+                             new SelectList(Enum.GetValues(typeof(TransactionType))
+                             .Cast<TransactionType>()
+                             .Select(e => new SelectListItem
+                            {
+                                Value = ((int)e).ToString(),
+                                Text = e.ToString(),
+                                Selected = (e == TransactionType.Debit)
+                            }), "Value", "Text"),
+                            new { @class = "form-control" })
+                </div>
 
-    <br>
+                <br>
 
-    <div class="modal-footer">
+                <div class="form-group">
+                    <label>Description:</label>
+                    @Html.TextBoxFor(t => t.description, new { @class = "form-control" })
+                </div>
+
+                <br>
+
+                <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <input type="submit" class="btn btn-primary">
                     </div>

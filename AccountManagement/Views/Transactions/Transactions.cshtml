@@ -40,17 +40,14 @@ account_code = (int)ViewData["AccountCode"]
                 <td>@transaction.capture_date</td>
                 <td>R @transaction.amount</td>
                 <td>@transaction.description</td>
-                <td class="d-flex gap-2">
+                <td>
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#UpdateTransactionModal_@transaction.code">Edit Transaction</button>
-
-                    <form action="@Url.Action("Delete", "Transactions", new { transactionCode = transaction.code })" method="post">
-                        @Html.AntiForgeryToken()
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
+                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#DeleteTransactionModal_@transaction.code">Delete</button>
                 </td>
             </tr>
 
     @await Html.PartialAsync("_UpdateTransactionModal", transaction)
+    @await Html.PartialAsync("_DeleteTransactionModal", transaction)
 }
     </tbody>
 </table>

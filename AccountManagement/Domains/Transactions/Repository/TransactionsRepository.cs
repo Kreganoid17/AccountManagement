@@ -1,4 +1,5 @@
 ﻿using AccountManagement.Configuration;
+using AccountManagement.Constants;
 using AccountManagement.Domains.Transactions.Services;
 using AccountManagment.Libraries.Shared.Constants;
 using AccountManagment.Libraries.Shared.Domains.Transactions.Models;
@@ -17,6 +18,19 @@ public class TransactionsRepository(IOptionsSnapshot<ApiEndpointsConfiguration> 
 
         try
         {
+            switch ((TransactionType)transactionModel.transaction_type) 
+            {
+                case TransactionType.Debit:
+                    transactionModel.amount = transactionModel.amount * -1;
+                    break;
+
+                case TransactionType.Credit:
+                    break;
+
+                default:
+                    return false;
+            }
+
             var url = apiEndpoints.Value.CreateTransactionEndpoint;
 
             var response = await client.HttpPostAsync(url, transactionModel);
@@ -129,6 +143,19 @@ public class TransactionsRepository(IOptionsSnapshot<ApiEndpointsConfiguration> 
 
         try
         {
+            switch ((TransactionType)transactionModel.transaction_type)
+            {
+                case TransactionType.Debit:
+                    transactionModel.amount = transactionModel.amount * -1;
+                    break;
+
+                case TransactionType.Credit:
+                    break;
+
+                default:
+                    return false;
+            }
+
             var url = apiEndpoints.Value.UpdateTransactionEndpoint;
 
             var response = await client.HttpPutAsync(url, transactionModel);

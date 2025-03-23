@@ -16,6 +16,8 @@ namespace AccountManagment.Libraries.Shared.Domains.Transactions.Models
 
         public DateTime capture_date { get; set; } = DateTime.Now;
 
+        public int transaction_type { get; set; }
+
         [Required]
         [TransactionAmount]
         public double amount { get; set; }
