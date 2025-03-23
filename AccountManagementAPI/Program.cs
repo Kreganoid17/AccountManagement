@@ -3,6 +3,7 @@ using AccountManagementAPI.Domains.Accounts;
 using AccountManagementAPI.Domains.Persons;
 using AccountManagementAPI.Domains.Transactions;
 using AccountManagementAPI.Helpers;
+using AccountManagementAPI.HelperServices.Email;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Enrichers.Span;
@@ -24,6 +25,9 @@ builder.Services.Configure<ConnectionStringOptions>(
 
 builder.Services.Configure<StoredProcedureOptions>(
     builder.Configuration.GetSection("StoredProcedures"));
+
+builder.Services.Configure<SmtpConfiguration>(
+    builder.Configuration.GetSection("EmailSettings"));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -59,6 +63,7 @@ builder.Services.AddSwaggerGen(setup =>
 );
 
 builder.Services.AddScoped<Stopwatch>();
+builder.Services.AddEmailService();
 builder.Services.AddPersonsServices();
 builder.Services.AddAccountsServices();
 builder.Services.AddTransactionsServices();

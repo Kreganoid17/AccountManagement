@@ -1,4 +1,7 @@
-﻿using AccountManagementAPI.Domains.Transactions.Services;
+﻿using AccountManagementAPI.Constants;
+using AccountManagementAPI.Domains.Transactions.Services;
+using AccountManagementAPI.HelperServices.Email.Models;
+using AccountManagementAPI.HelperServices.Email.Services;
 using AccountManagment.Libraries.Shared.Domains.Transactions.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,7 +10,8 @@ namespace AccountManagementAPI.Domains.Transactions.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [ApiExplorerSettings(GroupName = "OpenApiSpecificationForTransactions")]
-public class TransactionsController(ITransactionsRepository transactionsRepository) : Controller
+public class TransactionsController(ITransactionsRepository transactionsRepository, 
+                                    IEmailService emailService) : Controller
 {
     [HttpGet("{accountCode:int}")]
     public async Task<ActionResult<List<TransactionsModel>?>> RetreiveAllAsync(int accountCode)
@@ -32,6 +36,16 @@ public class TransactionsController(ITransactionsRepository transactionsReposito
 
         if (isCreated) 
         {
+            var emailModel = new EmailModel
+            {
+
+                subject = EmailConstants.CreateSubject,
+                body = "A transaction has been created"
+
+            };
+
+            await emailService.SendEmailAsync(emailModel);
+
             return Ok();
         }
 
@@ -45,6 +59,16 @@ public class TransactionsController(ITransactionsRepository transactionsReposito
 
         if (isUpdated) 
         {
+            var emailModel = new EmailModel
+            {
+
+                subject = EmailConstants.UpdateSubject,
+                body = "A transaction has been updated"
+
+            };
+
+            await emailService.SendEmailAsync(emailModel);
+
             return Ok();
         }
 
@@ -58,6 +82,15 @@ public class TransactionsController(ITransactionsRepository transactionsReposito
 
         if (isDeleted) 
         {
+            var emailModel = new EmailModel { 
+            
+                subject = EmailConstants.DeleteSubject,
+                body = "A transaction has been deleted"
+
+            };
+
+            await emailService.SendEmailAsync(emailModel);
+
             return Ok();
         }
 
