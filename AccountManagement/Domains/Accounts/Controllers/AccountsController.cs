@@ -7,6 +7,7 @@ namespace AccountManagement.Domains.Accounts.Controllers;
 public class AccountsController(IAccountsRepository accountsRepository) : Controller
 {
     [HttpGet("accounts/{personCode}")]
+    [Route("person/accounts/{personCode}")]
     public async Task<IActionResult> Accounts(int personCode)
     {
         ViewData["PersonCode"] = personCode;

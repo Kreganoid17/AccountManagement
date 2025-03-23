@@ -8,6 +8,7 @@ namespace AccountManagement.Domains.Transactions.Controllers;
 public class TransactionsController(ITransactionsRepository transactionsRepository) : Controller
 {
     [HttpGet("transactions/{accountCode}")]
+    [Route("person/accounts/transactions/{accountCode}")]
     public async Task<IActionResult> Transactions(int accountCode)
     {
         ViewData["AccountCode"] = accountCode;
