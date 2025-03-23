@@ -50,6 +50,11 @@ builder.Services.AddSwaggerGen(setup =>
     AddSwaggerDoc("OpenApiSpecificationForAccounts", "Account Management API [Accounts]", "This API provides functionality to manage accounts for a person");
     AddSwaggerDoc("OpenApiSpecificationForTransactions", "Account Management API [Transactions]", "This API provides functionality to manage transactions for a account of a person");
 
+    setup.DocInclusionPredicate((docName, apiDesc) =>
+    {
+        return apiDesc.GroupName == docName; 
+    });
+
 }
 );
 
