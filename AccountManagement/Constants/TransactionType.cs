@@ -1,8 +1,7 @@
-﻿namespace AccountManagement.Constants
+﻿namespace AccountManagement.Constants;
+
+public enum TransactionType 
 {
-    public enum TransactionType 
-    {
-        Debit = 1,
-        Credit = 2
-    }
+    Debit = 1,
+    Credit = 2
 }

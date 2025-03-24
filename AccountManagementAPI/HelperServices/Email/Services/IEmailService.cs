@@ -1,9 +1,8 @@
 ﻿using AccountManagementAPI.HelperServices.Email.Models;
 
-namespace AccountManagementAPI.HelperServices.Email.Services
+namespace AccountManagementAPI.HelperServices.Email.Services;
+
+public interface IEmailService
 {
-    public interface IEmailService
-    {
-        Task SendEmailAsync(EmailModel emailModel);
-    }
+    Task SendEmailAsync(EmailModel emailModel);
 }
