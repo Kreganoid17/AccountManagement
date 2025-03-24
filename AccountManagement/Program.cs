@@ -11,8 +11,6 @@ using System.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//var baseUrl = builder.Configuration["HttpClientApiUris:AccountManagementAPIAddress"] ?? throw new InvalidOperationException("The API configuration key is missing: AccountManagementAPIAddress");
-
 builder.Host.UseSerilog((hostBuilderContext, loggerConfiguration) =>
 {
     loggerConfiguration.ReadFrom.Configuration(hostBuilderContext.Configuration);
@@ -22,7 +20,6 @@ builder.Host.UseSerilog((hostBuilderContext, loggerConfiguration) =>
 
 builder.Services.AddControllers(configure =>
 {
-    //configure.Filters.Add(new ProducesResponseTypeAttribute<ProblemDetails>(StatusCodes.Status401Unauthorized));
     configure.Filters.Add(new ProducesResponseTypeAttribute<ProblemDetails>(StatusCodes.Status500InternalServerError));
     configure.Filters.Add<ActionTimerAttribute>();
 });
