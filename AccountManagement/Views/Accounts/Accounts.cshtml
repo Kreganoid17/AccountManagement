@@ -19,6 +19,7 @@ person_code = (int)ViewData["PersonCode"]
 
 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#CreateAccountModal">Create Account</button>
 
+<br></br>
 @await Html.PartialAsync("_CreateAccountModal", accountModel)
 
 <table class="table table-striped" id="accountsTable">
