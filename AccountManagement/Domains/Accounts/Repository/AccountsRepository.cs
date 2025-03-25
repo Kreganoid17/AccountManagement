@@ -17,7 +17,7 @@ public class AccountsRepository(IOptionsSnapshot<ApiEndpointsConfiguration> apiE
 
         try
         {
-            var url = apiEndpoints.Value.CreateAccountEnpoint;
+            var url = apiEndpoints.Value.CreateAccountEndpoint;
 
             var response = await client.HttpPostAsync(url, accountModel);
 
